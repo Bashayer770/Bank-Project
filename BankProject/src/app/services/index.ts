@@ -3,8 +3,8 @@ const BASE_URL =
 
 export const API = {
   AUTH: {
-    REGISTER: `${BASE_URL}/auth/register`,
-    LOGIN: `${BASE_URL}/auth/login`,    
+      REGISTER: `${BASE_URL}/auth/register`,
+      LOGIN: `${BASE_URL}/auth/login`,    
     },
     TRANSACTIONS: {
       MY: `${BASE_URL}/transactions/my`,

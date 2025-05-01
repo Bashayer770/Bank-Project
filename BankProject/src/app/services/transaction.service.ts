@@ -10,8 +10,7 @@ import { TransactionRequest, TransferRequest } from '../models/TransactionsReque
 })
 export class TransactionService {
 
-  constructor(private http: HttpClient) {
-    
+  constructor(private http: HttpClient) {    
   }
   
   getMyTransactions(): Observable<Transaction[]> {

@@ -1,7 +1,7 @@
 export interface RegisterRequest {
   username: string;
   password: string;
-  image: File;
+  image?: File | null;
 }
 
 export interface LoginRequest {

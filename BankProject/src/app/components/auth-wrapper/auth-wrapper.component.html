@@ -1,0 +1,155 @@
+<!-- auth-wrapper.component.html -->
+<div
+  class="flex items-center justify-center min-h-screen relative overflow-hidden bg-cover bg-center bg-no-repeat bg-[#ffffff] backdrop-blur-3xl"
+>
+  <div
+    id="container"
+    class="backdrop-blur-3xl border bg-cover bg-center bg-no-repeat shadow-2xl rounded-2xl w-[800px] h-[500px] relative overflow-hidden flex"
+    style="
+      background-image: url('https://img.freepik.com/premium-photo/empty-studio-room-dark-blue-pink-violet-neon-with-light-shadow-abstract-background_44706-398.jpg');
+      width: 800px;
+    "
+  >
+    <!-- REGISTER -->
+    <div
+      class="w-1/2 p-8 flex flex-col justify-center items-center transition-all duration-500 ease-in-out absolute h-full"
+      [ngClass]="{
+        'translate-x-0 opacity-100 z-10 bg-white text-[#200123]':
+          activeForm === 'register',
+        'translate-x-[-100%] opacity-0 z-0 bg-transparent text-white':
+          activeForm === 'login'
+      }"
+    >
+      <form class="w-full max-w-xs" (ngSubmit)="onRegisterSubmit()">
+        <h2 class="text-2xl font-bold mb-4 text-center text-[#200123]">
+          Register Here
+        </h2>
+        <input
+          type="text"
+          placeholder="Username"
+          [(ngModel)]="registerData.username"
+          name="username"
+          class="w-full p-2 mb-3 border-b border-[#200123]/50 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="registerData.password"
+          name="password"
+          class="w-full p-2 mb-3 border-b border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+        />
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          class="w-full p-2 mb-3 text-[#200123]"
+        />
+
+        <div *ngIf="errorMessage" class="text-red-400 text-sm mt-2 text-center">
+          {{ errorMessage }}
+        </div>
+        <button
+          type="submit"
+          class="w-full py-2 bg-[#200123] text-white font-semibold rounded-full transition-transform duration-300 hover:scale-105"
+        >
+          Register
+        </button>
+        <div
+          class="flex items-center justify-center gap-2 mt-4 text-sm text-[#200123]/70"
+        >
+          <p>or use your account</p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+            class="text-[#200123]/70"
+          >
+            <path
+              fill="currentColor"
+              d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42s1.02.39 1.41 0l6.59-6.59a.996.996 0 0 0 0-1.41l-6.58-6.6a.996.996 0 1 0-1.41 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1"
+            ></path>
+          </svg>
+        </div>
+      </form>
+    </div>
+    <!-- LOGIN -->
+    <div
+      class="w-1/2 p-8 flex flex-col justify-center items-center transition-all duration-500 ease-in-out absolute h-full"
+      [ngClass]="{
+        'translate-x-full opacity-100 z-10 bg-white text-gray-900':
+          activeForm === 'login',
+        'translate-x-0 opacity-0 z-0 bg-transparent text-white':
+          activeForm === 'register'
+      }"
+    >
+      <form class="w-full max-w-xs" (ngSubmit)="onLoginSubmit()">
+        <h2 class="text-2xl font-bold mb-4 text-center text-[#200123]">
+          Login Here
+        </h2>
+        <input
+          type="text"
+          placeholder="Username"
+          [(ngModel)]="loginData.username"
+          name="username"
+          class="w-full p-2 mb-3 border-b border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="loginData.password"
+          name="password"
+          class="w-full p-2 mb-3 border-b border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+        />
+
+        <div *ngIf="errorMessage" class="text-red-400 text-sm mt-2 text-center">
+          {{ errorMessage }}
+        </div>
+        <button
+          type="submit"
+          class="w-full py-2 bg-[#200123] text-white font-semibold rounded-full transition-transform duration-300 hover:scale-105"
+        >
+          Login
+        </button>
+        <div class="flex justify-between text-sm mt-4 text-white/80">
+          <label class="flex items-center gap-2 text-[#200123]">
+            <input type="checkbox" class="accent-[#200123]" />
+            Remember me
+          </label>
+          <a href="#" class="hover:underline text-[#200123]"
+            >Forgot password?</a
+          >
+        </div>
+      </form>
+    </div>
+
+    <!-- Sliding Panel -->
+    <div
+      class="absolute w-1/2 h-full bg-gradient-to-br text-white flex flex-col items-center justify-center gap-6 transition-transform duration-500 ease-in-out z-20"
+      [ngClass]="{
+        'translate-x-0': activeForm === 'login',
+        'translate-x-full': activeForm === 'register'
+      }"
+    >
+      <div *ngIf="activeForm === 'login'" class="text-center">
+        <h1 class="text-3xl font-bold mb-2">New here?</h1>
+        <p>Sign up and start your journey with us</p>
+        <button
+          class="mt-4 bg-white text-[#200123] px-6 py-2 rounded-full hover:scale-105 transition"
+          (click)="switchTo('register')"
+        >
+          Register
+        </button>
+      </div>
+      <div *ngIf="activeForm === 'register'" class="text-center">
+        <h1 class="text-3xl font-bold mb-2">Welcome Back!</h1>
+        <p>If you already have an account, login here</p>
+        <button
+          class="mt-4 bg-white text-gray-800 px-6 py-2 rounded-full hover:scale-105 transition"
+          (click)="switchTo('login')"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

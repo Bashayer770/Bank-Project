@@ -1,9 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuardService {
+export const AuthGuard: CanActivateFn = () => {
+  const router = inject(Router);
+  const token = sessionStorage.getItem('token');
 
-  constructor() { }
-}
+  if (!token) {
+    router.navigate(['/auth']);
+    return false;
+  }
+
+  return true;
+};

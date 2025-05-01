@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API } from '../services/index';
 import { AuthResponse } from '../models/AuthResponse';
-import { LoginRequest, RegisterRequest } from '../models/authRequest';
+import { LoginRequest, RegisterRequest } from '../models/AuthRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,9 @@ export class AuthService {
     const formData = new FormData();
     formData.append('username', data.username);
     formData.append('password', data.password);
-    formData.append('image', data.image);
+    if (data.image) {
+      formData.append('image', data.image);
+    }
 
     return this.http.post<AuthResponse>(API.AUTH.REGISTER, formData);
   }

@@ -13,6 +13,8 @@ import { AuthService } from '../../services/auth.service';
 export class AuthWrapperComponent {
   activeForm: 'login' | 'register' = 'login';
 
+  exitAnimation = false;
+  rememberMe = false;
   loading = false;
   errorMessage = '';
 
@@ -28,6 +30,16 @@ export class AuthWrapperComponent {
   };
 
   constructor(private authService: AuthService, private router: Router) {}
+  ngOnInit() {
+    const savedUsername = localStorage.getItem('rememberedUsername');
+    const savedPassword = localStorage.getItem('rememberedPassword');
+
+    if (savedUsername && savedPassword) {
+      this.loginData.username = savedUsername;
+      this.loginData.password = savedPassword;
+      this.rememberMe = true;
+    }
+  }
 
   switchTo(form: 'login' | 'register') {
     this.activeForm = form;
@@ -42,8 +54,10 @@ export class AuthWrapperComponent {
   }
 
   onRegisterSubmit() {
+    this.loading = true;
     if (!this.registerData.image) {
       this.errorMessage = 'Please upload a profile image.';
+      this.loading = false;
       return;
     }
 
@@ -57,10 +71,15 @@ export class AuthWrapperComponent {
         next: (res) => {
           console.log('register Payload:', this.registerData);
           sessionStorage.setItem('token', res.token);
-          this.router.navigate(['/home']);
+          // this.router.navigate(['/home']);
+          this.exitAnimation = true;
+          setTimeout(() => {
+            this.router.navigate(['/home']);
+          }, 700);
         },
         error: (err) => {
           this.errorMessage = err.error?.message || 'Registration failed.';
+          this.loading = false;
         },
       });
   }
@@ -68,12 +87,23 @@ export class AuthWrapperComponent {
   onLoginSubmit() {
     this.loading = true;
     this.errorMessage = '';
+    if (this.rememberMe) {
+      localStorage.setItem('rememberedUsername', this.loginData.username);
+      localStorage.setItem('rememberedPassword', this.loginData.password);
+    } else {
+      localStorage.removeItem('rememberedUsername');
+      localStorage.removeItem('rememberedPassword');
+    }
 
     this.authService.login(this.loginData).subscribe({
       next: (res) => {
         console.log('Login Payload:', this.loginData);
         sessionStorage.setItem('token', res.token);
-        this.router.navigate(['/home']);
+        // this.router.navigate(['/home']);
+        this.exitAnimation = true;
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        }, 700);
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Login failed.';

@@ -1,10 +1,11 @@
 <!-- auth-wrapper.component.html -->
 <div
-  class="flex items-center justify-center min-h-screen relative overflow-hidden bg-cover bg-center bg-no-repeat bg-[#ffffff] backdrop-blur-3xl"
+  class="flex items-center justify-center min-h-screen relative overflow-hidden bg-cover bg-center bg-no-repeat bg-[#ffffff] backdrop-blur-3xl transition-all duration-700 transform"
+  [ngClass]="{ '-translate-x-full opacity-0': exitAnimation }"
 >
   <div
     id="container"
-    class="backdrop-blur-3xl border bg-cover bg-center bg-no-repeat shadow-2xl rounded-2xl w-[800px] h-[500px] relative overflow-hidden flex"
+    class="backdrop-blur-3xl bg-cover bg-center bg-no-repeat shadow-lg rounded-2xl w-[800px] h-[500px] relative overflow-hidden flex"
     style="
       background-image: url('https://img.freepik.com/premium-photo/empty-studio-room-dark-blue-pink-violet-neon-with-light-shadow-abstract-background_44706-398.jpg');
       width: 800px;
@@ -44,14 +45,17 @@
           class="w-full p-2 mb-3 text-[#200123]"
         />
 
-        <div *ngIf="errorMessage" class="text-red-400 text-sm mt-2 text-center">
+        <div *ngIf="errorMessage" class="text-red-400 text-sm p-3 text-center">
           {{ errorMessage }}
         </div>
         <button
           type="submit"
+          [disabled]="loading"
           class="w-full py-2 bg-[#200123] text-white font-semibold rounded-full transition-transform duration-300 hover:scale-105"
         >
-          Register
+          <ng-container *ngIf="!loading; else loadingSpinner"
+            >Register</ng-container
+          >
         </button>
         <div
           class="flex items-center justify-center gap-2 mt-4 text-sm text-[#200123]/70"
@@ -101,18 +105,26 @@
           class="w-full p-2 mb-3 border-b border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
         />
 
-        <div *ngIf="errorMessage" class="text-red-400 text-sm mt-2 text-center">
+        <div *ngIf="errorMessage" class="text-red-400 text-sm p-3 text-center">
           {{ errorMessage }}
         </div>
         <button
           type="submit"
+          [disabled]="loading"
           class="w-full py-2 bg-[#200123] text-white font-semibold rounded-full transition-transform duration-300 hover:scale-105"
         >
-          Login
+          <ng-container *ngIf="!loading; else loadingSpinner"
+            >Login</ng-container
+          >
         </button>
         <div class="flex justify-between text-sm mt-4 text-white/80">
           <label class="flex items-center gap-2 text-[#200123]">
-            <input type="checkbox" class="accent-[#200123]" />
+            <input
+              type="checkbox"
+              [(ngModel)]="rememberMe"
+              name="rememberMe"
+              class="accent-[#200123]"
+            />
             Remember me
           </label>
           <a href="#" class="hover:underline text-[#200123]"
@@ -153,3 +165,10 @@
     </div>
   </div>
 </div>
+<ng-template #loadingSpinner>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"
+    alt="Loading..."
+    class="h-5 w-5 mx-auto text-white"
+  />
+</ng-template>

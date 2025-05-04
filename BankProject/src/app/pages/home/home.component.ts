@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaymentCardComponent } from '../../components/payment-card/payment-card.component';
 import { AddCardModalComponent } from '../../components/add-card-modal/add-card-modal.component';
+import { PaymentCard } from '../../models/card';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ import { AddCardModalComponent } from '../../components/add-card-modal/add-card-
 export class HomeComponent {
   constructor(private router: Router) {}
 
-  cards = signal([
+  cards = signal<PaymentCard[]>([
     {
       number: '4242 4242 4242 4242',
       name: 'John Doe',
@@ -39,6 +40,7 @@ export class HomeComponent {
   transactionAmount = 0;
   toastMessage = signal<string | null>(null);
 
+  // Modal Control
   showModal() {
     return this.showAddCardModal();
   }
@@ -51,7 +53,8 @@ export class HomeComponent {
     this.showAddCardModal.set(false);
   }
 
-  addCard(newCard: any) {
+  // Card Operations
+  addCard(newCard: PaymentCard) {
     this.cards.update((cards) => [...cards, { ...newCard, balance: 0 }]);
     this.closeModal();
   }
@@ -65,7 +68,7 @@ export class HomeComponent {
     this.selectedCardIndex.set(index);
   }
 
-  selectedCard() {
+  selectedCard(): PaymentCard | null {
     const index = this.selectedCardIndex();
     return index !== null ? this.cards()[index] : null;
   }
@@ -73,8 +76,9 @@ export class HomeComponent {
   deposit(index: number | null, amount: number) {
     if (index === null || amount <= 0) return;
     this.cards.update((cards) => {
-      cards[index].balance += amount;
-      return [...cards];
+      const updated = [...cards];
+      updated[index].balance += amount;
+      return updated;
     });
     this.showToast(`Deposited $${amount}`);
   }
@@ -82,21 +86,20 @@ export class HomeComponent {
   withdraw(index: number | null, amount: number) {
     if (index === null || amount <= 0) return;
     this.cards.update((cards) => {
-      if (cards[index].balance >= amount) {
-        cards[index].balance -= amount;
+      const updated = [...cards];
+      if (updated[index].balance >= amount) {
+        updated[index].balance -= amount;
         this.showToast(`Withdrew $${amount}`);
       } else {
         this.showToast('Insufficient funds');
       }
-      return [...cards];
+      return updated;
     });
   }
 
   showToast(message: string) {
     this.toastMessage.set(message);
-    setTimeout(() => {
-      this.toastMessage.set(null);
-    }, 3000);
+    setTimeout(() => this.toastMessage.set(null), 3000);
   }
 
   logout() {

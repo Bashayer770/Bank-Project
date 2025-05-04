@@ -8,12 +8,27 @@
     <div class="line3"></div>
   </div>
   <ul class="nav-links" [class.open]="isMenuOpen()">
-    <li><a routerLink="/home" class="cursor-pointer">Home</a></li>
-    <li><a routerLink="/user" class="cursor-pointer">User</a></li>
     <li>
-      <a routerLink="/transactions" class="cursor-pointer">Transactions</a>
+      <!-- <a routerLink="/home" class="cursor-pointer">Home</a> -->
+      <button class="cursor-pointer" (click)="goToHome()">Home</button>
     </li>
-    <li><a routerLink="/profile" class="cursor-pointer">Profile</a></li>
+    <li>
+      <!-- <a routerLink="/user" class="cursor-pointer">User</a> -->
+      <button class="cursor-pointer" (click)="goToUsers()">
+        My Beneficiaries
+      </button>
+    </li>
+    <li>
+      <!-- <a routerLink="/transactions" class="cursor-pointer">Transactions</a> -->
+      <button class="cursor-pointer" (click)="goToTransactions()">
+        Transactions
+      </button>
+    </li>
+    <!-- <li><a routerLink="/profile" class="cursor-pointer">Profile</a></li> -->
+    <!-- <li>
+      <button class="cursor-pointer" (click)="goToProfile()">Profile</button>
+    </li> -->
+
     <li><button class="login-button" (click)="logout()">Logout</button></li>
   </ul>
 </nav>

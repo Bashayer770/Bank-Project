@@ -2,17 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API } from '../services/index';
-import { Transaction, TransactionResponse } from '../models/TransactionsResponse';
-import { TransactionRequest, TransferRequest } from '../models/TransactionsRequest';
+import {
+  Transaction,
+  TransactionResponse,
+} from '../models/TransactionsResponse';
+import {
+  TransactionRequest,
+  TransferRequest,
+} from '../models/TransactionsRequest';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TransactionService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {    
-  }
-  
   getMyTransactions(): Observable<Transaction[]> {
     return this.http.get<Transaction[]>(API.TRANSACTIONS.MY);
   }
@@ -26,7 +30,9 @@ export class TransactionService {
   }
 
   transfer(data: TransferRequest): Observable<TransactionResponse> {
-    return this.http.post<TransactionResponse>(API.TRANSACTIONS.TRANSFER + data.username, data);
+    return this.http.put<TransactionResponse>(
+      API.TRANSACTIONS.TRANSFER + data.username,
+      data
+    );
   }
-
 }

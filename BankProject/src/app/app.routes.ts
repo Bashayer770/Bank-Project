@@ -22,11 +22,18 @@ export const routes: Routes = [
     component: UsersListComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  {
+    path: 'transactions',
+    component: TransactionsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'transferLink',
+    component: TransferLinkComponent,
+    canActivate: [AuthGuard],
+  },
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   { path: '**', redirectTo: 'auth' },
-  { path: 'home', component: HomeComponent },
-  { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard]},
-  { path: 'transferLink', component: TransferLinkComponent, canActivate: [AuthGuard]},
   // { path: '**', redirectTo: 'login' },
 ];
-

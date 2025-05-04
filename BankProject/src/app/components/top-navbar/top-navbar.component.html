@@ -1,0 +1,19 @@
+<nav>
+  <div class="logo">
+    <span class="text-[#df2859]">BAA</span>
+  </div>
+  <div class="hamburger" (click)="toggleMenu()" [class.toggle]="isMenuOpen()">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+  </div>
+  <ul class="nav-links" [class.open]="isMenuOpen()">
+    <li><a routerLink="/home" class="cursor-pointer">Home</a></li>
+    <li><a routerLink="/user" class="cursor-pointer">User</a></li>
+    <li>
+      <a routerLink="/transactions" class="cursor-pointer">Transactions</a>
+    </li>
+    <li><a routerLink="/profile" class="cursor-pointer">Profile</a></li>
+    <li><button class="login-button" (click)="logout()">Logout</button></li>
+  </ul>
+</nav>

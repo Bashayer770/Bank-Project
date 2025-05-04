@@ -1,6 +1,6 @@
 
 
-<div  style="display: flex; flex-direction: row; gap: 20px; padding: 10px;">
+<div  style="display: flex; flex-direction: row; gap: 20px; padding: 10px; margin-top:4.5rem">
 
     <div>
         <input [checked]="true" checked type="radio" id="AllTypes" [(ngModel)]="transactionType" name="transactionType" value="all">
@@ -29,31 +29,34 @@
 
 </div>
 
-@if(transactions)
-{
-
-
-    @for (transaction of transactions; track transaction) {
-<!-- @if(transaction.type == )         -->
-
+@if(!enrichedTransactions$) {    
+    <div>LOADING...</div>  
+}
+<!-- @else if( (enrichedTransactions$| async)) {
+    <div style="padding: 100px;">YOU DONT HAVE ANY TRANSasdfACTIONS...</div>
+} -->
+@else {
+    @for (transaction of enrichedTransactions$ | async; track transaction) {
+        <!-- @if(transaction.type == )         -->
+        
         @if(ShouldShow(transaction)){            
             <div style="background-color: purple; color: yellow; margin: 20px;padding: 10px; border-radius: 10px;">
                 
                 <div>{{getAmount(transaction)}}</div>
                 
-                <div style="color: red">{{getType(transaction)}}</div>
+                <div [ngStyle]="{ 'color': isPositive(transaction) ? 'green' : 'red' }">{{getType(transaction)}}</div>
                 
-                
+<!-- 
+                <div>{{transaction.toUsername}}</div>
+                <div>{{transaction.fromUsername}}</div>
+
                 <div>{{transaction.type}}</div>
-                <div>{{transaction.from}}</div>
-                <div>{{transaction.to}}</div>
+                <div>{{transaction.from  }}</div>
+                <div>{{transaction.to }}</div> -->
                 <div>{{transaction.createdAt}}</div>
-                <div>{{transaction.updatedAt}}</div>
+                <!-- <div>{{transaction.updatedAt}}</div> -->
             </div>
         }
     }
-}
-@else {
-    <div>LOADING...</div>
 }
 

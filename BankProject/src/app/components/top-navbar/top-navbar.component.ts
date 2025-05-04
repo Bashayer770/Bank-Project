@@ -18,10 +18,11 @@ export class TopNavbarComponent {
   }
 
   goToHome() {
-    this.router.navigate(['/home']);
     console.log('home');
+    this.router.navigate(['/home']);
   }
   goToProfile() {
+    console.log('home2');
     this.router.navigate(['/profile']);
   }
   goToUsers() {

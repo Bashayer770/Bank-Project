@@ -2,3 +2,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  .transform-style {
+    transform-style: preserve-3d;
+  }
+  .perspective {
+    perspective: 1000px;
+  }
+  @keyframes swipeIn {
+    from {
+      transform: translateX(100vw) scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  .swipe-in {
+    animation: swipeIn 0.6s ease-out both;
+  }
+}

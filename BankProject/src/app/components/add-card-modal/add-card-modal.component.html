@@ -1,0 +1,88 @@
+<div
+  class="fixed inset-0 z-50 bg-black/50 flex justify-center items-center p-4"
+>
+  <div
+    class="bg-white/90 rounded-xl w-full max-w-4xl h-4/5 p-6 relative flex flex-col items-center"
+  >
+    <button
+      class="absolute top-2 right-3 text-black text-xl"
+      (click)="closeModal.emit()"
+    >
+      ✕
+    </button>
+
+    <!--  Card -->
+    <div (mouseenter)="flipCard(false)" class="mb-6 flex justify-center">
+      <app-payment-card
+        [card]="card"
+        [flipped]="flipped"
+        [background]="card.background"
+      ></app-payment-card>
+    </div>
+    <div class="h-10"></div>
+    <!-- Inputs -->
+    <div class="grid grid-cols-2 gap-4 w-full">
+      <input
+        type="text"
+        maxlength="19"
+        [(ngModel)]="card.number"
+        placeholder="Card Number"
+        class="p-2 mb-3 border-b italic border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+        (input)="formatCardNumber($event)"
+      />
+
+      <input
+        [(ngModel)]="card.name"
+        placeholder="Cardholder Name"
+        class="p-2 mb-3 border-b italic border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+      />
+      <input
+        type="text"
+        placeholder="MM/YY"
+        [(ngModel)]="expiry"
+        (input)="formatExpiry($event)"
+        maxlength="5"
+        class="p-2 mb-3 border-b italic border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+      />
+
+      <input
+        type="number"
+        maxlength="4"
+        placeholder="CVV"
+        [(ngModel)]="card.cvv"
+        (focus)="onFocusCVV()"
+        (blur)="onBlurCVV()"
+        class="p-2 mb-3 border-b italic border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+      />
+
+      <select
+        [(ngModel)]="card.type"
+        class="p-2 mb-3 border-b italic border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+      >
+        <option value="visa">Visa</option>
+        <option value="mastercard">MasterCard</option>
+        <option value="amex">Amex</option>
+      </select>
+    </div>
+    <div class="w-full my-4">
+      <h3 class="text-sm text-[#200123]/80 mb-2">Choose a Card Skin:</h3>
+      <div class="flex gap-3 overflow-x-auto">
+        <img
+          *ngFor="let skin of skins"
+          [src]="skin"
+          (click)="selectSkin(skin)"
+          [class.ring-4]="skin === selectedSkin"
+          class="w-24 h-16 object-cover rounded-xl cursor-pointer border border-[#200123]/40 hover:scale-105 transition"
+        />
+      </div>
+    </div>
+
+    <div class="h-7"></div>
+    <button
+      class="w-[60%] py-2 bg-[#200123] text-white font-semibold rounded-full transition-transform duration-300 hover:scale-105"
+      (click)="saveCard()"
+    >
+      Save Card
+    </button>
+  </div>
+</div>

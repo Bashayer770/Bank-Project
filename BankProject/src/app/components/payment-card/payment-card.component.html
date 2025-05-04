@@ -1,0 +1,127 @@
+<div class="perspective w-[430px] h-[270px] cursor-pointer" (click)="flip()">
+  <div
+    class="relative w-full h-full transition-transform duration-700 transform-style"
+    [class.rotate-y-180]="flipped"
+  >
+    <!-- Front  -->
+    <div
+      class="absolute w-full h-full rounded-xl overflow-hidden backface-hidden"
+    >
+      <img
+        [src]="backgroundImg"
+        alt="Background"
+        class="absolute w-full h-full object-cover"
+      />
+      <div
+        class="relative z-10 h-full text-white p-5 font-mono flex flex-col justify-between"
+      >
+        <div class="flex justify-between items-start">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/9334/9334639.png"
+            class="w-12"
+            alt="Chip"
+          />
+          <svg
+            *ngIf="card.type === 'visa'"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            width="60"
+            height="60"
+            fill="currentColor"
+            class="text-white"
+          >
+            <path
+              d="M23.26 11.495a6.7 6.7 0 0 0-2.323-.401c-2.557 0-4.364 1.292-4.375 3.141c-.021 1.359 1.281 2.125 2.265 2.583c1.011.469 1.349.761 1.344 1.177c-.005.641-.808.927-1.547.927c-1.027 0-1.584-.14-2.443-.5l-.319-.151l-.364 2.136c.625.255 1.745.479 2.901.5c2.724 0 4.5-1.281 4.52-3.256c.021-1.083-.676-1.905-2.161-2.583c-.896-.437-1.457-.735-1.457-1.183c0-.396.479-.812 1.479-.812a4.8 4.8 0 0 1 1.937.359l.245.109l.359-2.057zm6.647-.224h-2c-.625 0-1.089.167-1.365.787l-3.844 8.713h2.719l.548-1.427l3.317.005c.083.333.317 1.421.317 1.421H32zm-17.027-.078h2.589l-1.62 9.504H11.26l1.62-9.509zm-6.583 5.234l.265 1.323l2.536-6.479h2.745l-4.084 9.484H5.026l-2.24-8.031a.5.5 0 0 0-.245-.317A11 11 0 0 0 0 11.464l.031-.199h4.177c.563.021 1.021.199 1.177.803l.912 4.364zm20.406.974l1.037-2.661c-.016.025.213-.547.343-.907l.177.817l.6 2.745h-2.157z"
+            ></path>
+          </svg>
+          <svg
+            *ngIf="card.type === 'amex'"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 576"
+            width="60"
+            height="60"
+            fill="white"
+            class="text-white"
+          >
+            <path
+              d="M0 432c0 26.5 21.5 48 48 48h480c26.5 0 48-21.5 48-48v-1.1h-61.7l-31.9-35.1l-31.9 35.1H246.8V267.1H181l81.7-184.7h78.6l28.1 63.2V82.4h97.2l16.9 47.6l17-47.6H576V80c0-26.5-21.5-48-48-48H48C21.5 32 0 53.5 0 80zm440.4-21.7l42.2-46.3l42 46.3H576l-68-72.1l68-72.1h-50.6l-42 46.7l-41.5-46.7h-51.4l67.5 72.5l-67.4 71.6v-33.1h-83v-22.2h80.9v-32.3h-80.9v-22.4h83v-33.1h-122v143.2zm96.3-72l39.3 41.9v-83.3zm-36.3-92l36.9-100.6v100.6H576V103h-60.2l-32.2 89.3l-31.9-89.3h-61.2v143.1L327.3 103h-51.2l-62.4 143.3h43l11.9-28.7h65.9l12 28.7h82.7V146L466 246.3zM282 185.4l19.5-46.9l19.4 46.9z"
+            ></path>
+          </svg>
+
+          <svg
+            *ngIf="card.type === 'mastercard'"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1000 1000"
+            width="60"
+            height="60"
+            fill="white"
+            class="text-white"
+          >
+            <path
+              d="M46.531 195C20.841 195 0 215.83 0 241.531V776.47C0 802.166 20.844 823 46.531 823H953.47c25.69 0 46.531-20.83 46.531-46.531V241.53c0-25.697-20.844-46.531-46.531-46.531H46.53zM327.906 270.594c132.29 0 239.531 107.252 239.531 239.563S460.196 749.719 327.906 749.719 88.375 642.967 88.375 510.656 195.616 270.594 327.906 270.594zM646 270.594c132.291 0 239.531 107.252 239.531 239.563S778.291 749.719 646 749.719c-132.29 0-239.531-106.752-239.531-239.063S513.71 270.594 646 270.594z"
+            ></path>
+          </svg>
+        </div>
+        <div
+          (click)="toggleSensitiveInfo(); $event.stopPropagation()"
+          class="absolute top-3 right-3 p-2 bg-black/30 rounded-full hover:bg-black/50 transition z-50"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            class="w-6 h-6 text-white"
+          >
+            <path
+              d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+            />
+          </svg>
+        </div>
+
+        <div class="text-xl tracking-widest font-semibold">
+          <span
+            *ngFor="let n of maskedNumber.split('')"
+            class="inline-block w-4"
+          >
+            {{ n }}
+          </span>
+        </div>
+
+        <div class="flex justify-between text-sm font-semibold">
+          <div>
+            <div class="text-xs opacity-80">Card Holder</div>
+            <div class="uppercase truncate">{{ card.name || "FULL NAME" }}</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs opacity-80">Expires</div>
+            <div>
+              {{ card.expMonth || "MM" }}/{{ card.expYear.slice(2) || "YY" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back -->
+    <div
+      class="absolute w-full h-full rounded-xl overflow-hidden rotate-y-180 backface-hidden bg-gray-900 text-white"
+    >
+      <img
+        [src]="background"
+        alt="Background"
+        class="absolute w-full h-full object-cover opacity-20"
+      />
+      <div class="relative z-10 h-full p-5 flex flex-col justify-center">
+        <div class="bg-black w-full h-12 mb-6"></div>
+        <div>
+          <div class="text-lg mb-1 justify-end flex pr-14">CVV</div>
+          <div
+            class="bg-gray-300 text-gray-900 font-bold text-right px-4 py-2 rounded-md w-24 ml-auto"
+          >
+            {{ showSensitive ? card.cvv : "***" }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

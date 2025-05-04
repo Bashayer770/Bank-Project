@@ -1,1 +1,86 @@
-<p>users works!</p>
+<div
+  class="p-5 bg-gradient-to-tl from-[#0f0f29] to-[#3b3b3b] min-h-screen text-white"
+>
+  <h2 class="text-center text-white mb-8 text-3xl font-bold">
+    My Beneficiaries
+  </h2>
+
+  <div
+    *ngIf="loading"
+    class="text-center p-4 mb-5 rounded-lg text-lg bg-[#e9f7ef] text-[#0e5d37] border border-[#c8e6c9]"
+  >
+    Loading users...
+  </div>
+
+  <div
+    *ngIf="error"
+    class="text-center p-4 mb-5 rounded-lg text-lg bg-[#fbe9e7] text-[#c62828] border border-[#ffccbc]"
+  >
+    {{ error }}
+  </div>
+
+  <div
+    *ngIf="!loading && users.length === 0"
+    class="text-center p-4 mb-5 rounded-lg text-lg bg-white bg-opacity-10 text-white border border-white border-opacity-20"
+  >
+    No users found.
+  </div>
+
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center"
+  >
+    <ng-container *ngFor="let user of users">
+      <div
+        class="bg-white bg-opacity-80 backdrop-blur-sm p-6 rounded-lg shadow-md flex flex-col items-center gap-4 w-full max-w-sm"
+      >
+        <div
+          class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#8bb3ee]"
+        >
+          @if(user.image){
+          <img [src]="user.image" class="w-full h-full object-cover block" />
+          } @else {
+          <div
+            class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-2xl font-bold"
+          >
+            {{ user.username ? user.username.charAt(0).toUpperCase() : "?" }}
+          </div>
+          }
+        </div>
+        <div class="text-center">
+          <h3 class="text-lg font-bold text-[#200123]">{{ user.username }}</h3>
+          <p class="text-sm text-gray-600">
+            Balance: {{ user.balance | currency : "KWD" : "symbol" : "1.3-3" }}
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center gap-3 w-full mt-auto">
+          <input
+            type="number"
+            [(ngModel)]="transferAmounts[user.username]"
+            placeholder="Amount"
+            class="w-full p-2 text-center text-base border-b border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none font-semibold"
+            min="0"
+          />
+
+          <button
+            class="w-full px-4 py-2 bg-[#8bb3ee] text-yellow-400 text-base font-semibold rounded-md shadow hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            (click)="initiateTransfer(user)"
+            [disabled]="
+              !transferAmounts[user.username] ||
+              transferAmounts[user.username]! <= 0
+            "
+          >
+            Transfer
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div
+    *ngIf="toastMessage"
+    class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in"
+  >
+    {{ toastMessage }}
+  </div>
+</div>

@@ -9,7 +9,6 @@
     Logout
   </button> -->
 
-  <!-- ADD CARD -->
   <button
     class="absolute bottom-6 left-6 px-6 py-2 bg-[#e90f58] text-white font-semibold rounded-xl shadow-lg transition-transform duration-300 hover:scale-105"
     (click)="openModal()"
@@ -35,10 +34,8 @@
     </ng-container>
   </div>
 
-  <!-- Selected Card Display and Actions -->
   <div *ngIf="selectedCardIndex() !== null">
     <ng-container *ngIf="selectedCard() as selected">
-      <!--  swipe-in animation for the card -->
       <div class="fixed left-1/2 top-20 transform -translate-x-1/2 z-30">
         <div class="animate-swipe-in">
           <app-payment-card
@@ -87,7 +84,6 @@
     </ng-container>
   </div>
 
-  <!-- Toast Notification -->
   <div
     *ngIf="toastMessage()"
     class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in"
@@ -95,7 +91,6 @@
     {{ toastMessage() }}
   </div>
 
-  <!-- Add Modal -->
   <app-add-card-modal
     *ngIf="showModal()"
     (save)="addCard($event)"

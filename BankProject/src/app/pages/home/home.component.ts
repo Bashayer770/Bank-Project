@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { PaymentCardComponent } from '../../components/payment-card/payment-card.component';
 import { AddCardModalComponent } from '../../components/add-card-modal/add-card-modal.component';
 import { PaymentCard } from '../../models/card';
+import { User } from '../../models/Users';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +21,27 @@ import { PaymentCard } from '../../models/card';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  constructor(private router: Router) {}
+  currentUser: User | null = null;
+  constructor(private router: Router, private userService: UsersService) {}
+
+  ngOnInit(): void {
+    this.userService.getMyProfile().subscribe({
+      next: (user) => {
+        this.currentUser = user;
+      },
+      error: (err) => {
+        console.error('Failed to load current user profile:', err);
+      },
+    });
+  }
+
+  goToUserProfile(): void {
+    this.router.navigate(['/profile']);
+  }
+
+  goToUsersList(): void {
+    this.router.navigate(['/users']);
+  }
 
   cards = signal<PaymentCard[]>([
     {

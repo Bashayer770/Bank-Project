@@ -17,6 +17,21 @@ export class TopNavbarComponent {
     this.isMenuOpen.set(!this.isMenuOpen());
   }
 
+  goToHome() {
+    this.router.navigate(['/home']);
+    console.log('home');
+  }
+  goToProfile() {
+    this.router.navigate(['/profile']);
+  }
+  goToUsers() {
+    this.router.navigate(['/users']);
+  }
+  goToTransactions() {
+    this.router.navigate(['/transactions']);
+    console.log(this.router.url);
+  }
+
   logout() {
     sessionStorage.removeItem('token');
     this.router.navigate(['/auth']);

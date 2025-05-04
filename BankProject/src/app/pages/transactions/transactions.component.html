@@ -1,9 +1,9 @@
 
 
-<div  style="display: flex; flex-direction: row; gap: 20px;">
+<div  style="display: flex; flex-direction: row; gap: 20px; padding: 10px;">
 
     <div>
-        <input [checked]="true" checked type="radio" id="AllTypes" [(ngModel)]="transactionType" name="transactionType" value="All">
+        <input [checked]="true" checked type="radio" id="AllTypes" [(ngModel)]="transactionType" name="transactionType" value="all">
         <label for="AllTypes">All</label>
     </div>
 
@@ -32,11 +32,12 @@
 @if(transactions)
 {
 
+
     @for (transaction of transactions; track transaction) {
 <!-- @if(transaction.type == )         -->
 
         @if(ShouldShow(transaction)){            
-            <div style="background-color: purple; color: yellow; margin: 20px;">
+            <div style="background-color: purple; color: yellow; margin: 20px;padding: 10px; border-radius: 10px;">
                 
                 <div>{{getAmount(transaction)}}</div>
                 

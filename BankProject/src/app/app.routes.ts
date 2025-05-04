@@ -5,11 +5,13 @@ import { AuthGuard } from './services/auth-guard.service';
 import { RegisterComponent } from './pages/auth/register/register.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { AuthWrapperComponent } from './components/auth-wrapper/auth-wrapper.component';
+import { TransferLinkComponent } from './pages/transfer-link/transfer-link.component';
 
 export const routes: Routes = [
   { path: 'auth', component: AuthWrapperComponent },
   { path: 'home', component: HomeComponent },
   { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard]},
+  { path: 'transferLink', component: TransferLinkComponent, canActivate: [AuthGuard]},
   // { path: '**', redirectTo: 'login' },
 ];
 

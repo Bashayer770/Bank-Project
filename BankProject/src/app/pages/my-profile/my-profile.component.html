@@ -1,1 +1,28 @@
-<p>my-profile works!</p>
+<div class="profile-container">
+  <h2>User Profile</h2>
+
+  <div *ngIf="loading" class="loading-message">Loading profile...</div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  <button (click)="getMyProfile()">button</button>
+
+  <div *ngIf="user" class="user-details">
+    <div class="profile-image">
+      <img
+        *ngIf="user.image"
+        [src]="user.image"
+        alt="{{ user.username }}'s profile picture"
+      />
+      <div *ngIf="!user.image" class="placeholder-image">
+        No Image Available
+      </div>
+    </div>
+
+    <div class="user-info">
+      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Balance:</strong> {{ user.balance | currency }}</p>
+    </div>
+  </div>
+</div>

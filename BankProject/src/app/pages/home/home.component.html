@@ -1,12 +1,104 @@
 <div
-  class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#200123] to-purple-600 text-white"
+  class="relative w-screen h-screen bg-gradient-to-tl from-[#0f0f29] to-[#3b3b3b] overflow-hidden"
 >
+  <!-- LOGOUT -->
   <button
-    class="absolute top-6 right-6 bg-white text-[#200123] px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform"
+    class="absolute top-6 left-6 px-4 py-2 bg-[#8bb3ee] text-white rounded-lg shadow-md hover:bg-red-700"
     (click)="logout()"
   >
     Logout
   </button>
-  <h1 class="text-4xl font-bold mb-6">Welcome to the Bank App 🏦</h1>
-  <p class="text-lg">You're successfully logged in!</p>
+
+  <!-- ADD CARD -->
+  <button
+    class="absolute bottom-6 left-6 px-6 py-2 bg-[#8bb3ee] text-white font-semibold rounded-xl shadow-lg hover:bg-blue-700 transition-all"
+    (click)="openModal()"
+  >
+    + Add Card
+  </button>
+
+  <!-- CARDS AREA -->
+  <div
+    class="absolute top-1/2 right-[-140px] transform -translate-y-1/2 flex flex-col items-end gap-[-100px]"
+  >
+    <ng-container *ngFor="let card of cards(); let i = index">
+      <div
+        *ngIf="selectedCardIndex() !== i"
+        class="transition-all duration-500 ease-in-out cursor-pointer relative -mt-24 hover:translate-x-[-20px]"
+        (click)="selectCard(i)"
+      >
+        <app-payment-card
+          [card]="card"
+          [background]="card.background"
+          [flipped]="false"
+        />
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Selected Card Display and Actions -->
+  <div *ngIf="selectedCardIndex() !== null">
+    <ng-container *ngIf="selectedCard() as selected">
+      <!--  swipe-in animation for the card -->
+      <div class="fixed left-1/2 top-20 transform -translate-x-1/2 z-30">
+        <div class="animate-swipe-in">
+          <app-payment-card
+            [card]="selected"
+            [background]="selected.background"
+            [flipped]="false"
+          />
+        </div>
+      </div>
+
+      <!-- Balance and infos -->
+      <div
+        class="fixed left-1/2 top-[280px] mt-10 transform -translate-x-1/2 w-[30%] h-[50%] p-6 rounded-xl bg-white/70 shadow-xl text-center z-1 transition-all duration-700 ease-out"
+      >
+        <div class="h-10"></div>
+        <p class="text-3xl font-bold mb-4 text-center text-[#200123]">
+          Balance: {{ getSelectedBalance() }}
+        </p>
+        <div class="h-24"></div>
+
+        <div class="flex items-center gap-4 justify-center mb-4">
+          <input
+            type="number"
+            [(ngModel)]="transactionAmount"
+            placeholder="Amount"
+            class="p-2 mb-3 text-3xl border-b text-center italic border-[#200123]/70 bg-transparent text-[#200123] font-semibold placeholder-[#200123]/70 focus:outline-none"
+          />
+        </div>
+        <div class="h-8"></div>
+        <div class="flex justify-center gap-14">
+          <button
+            class="w-[30%] py-2 bg-[#200123] text-white font-semibold rounded-lg transition-transform duration-300 hover:scale-105"
+            (click)="deposit(selectedCardIndex(), transactionAmount)"
+          >
+            Deposit
+          </button>
+          <button
+            class="w-[30%] py-2 bg-[#8bb3ee] text-white font-semibold rounded-lg transition-transform duration-300 hover:scale-105"
+            (click)="withdraw(selectedCardIndex(), transactionAmount)"
+          >
+            Withdraw
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Toast Notification -->
+  <div
+    *ngIf="toastMessage()"
+    class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in"
+  >
+    {{ toastMessage() }}
+  </div>
+
+  <!-- Add Modal -->
+  <app-add-card-modal
+    *ngIf="showModal()"
+    (save)="addCard($event)"
+    (closeModal)="closeModal()"
+  ></app-add-card-modal>
 </div>

@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap");
+
+:host {
+  --card-width: 430px;
+  --card-height: 270px;
+  --font-mono: "Source Code Pro", monospace;
+}
+
+.card {
+  @apply relative w-[430px] h-[270px] text-white rounded-xl shadow-xl transition-transform duration-700 ease-in-out;
+  font-family: var(--font-mono);
+  perspective: 1000px;
+}
+
+.card.rotate-y-180 .card__front {
+  transform: rotateY(180deg);
+}
+
+.card.rotate-y-180 .card__back {
+  transform: rotateY(0);
+}
+
+.card__side {
+  @apply absolute w-full h-full rounded-xl overflow-hidden bg-cover bg-center backface-hidden;
+  transition: transform 0.7s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.card__front {
+  transform: rotateY(0);
+  z-index: 2;
+}
+
+.card__back {
+  transform: rotateY(180deg);
+  z-index: 1;
+  @apply bg-gray-900 px-5 py-4;
+}
+
+.card__chip {
+  @apply w-12;
+}
+
+.card__type-img {
+  @apply w-14 object-contain;
+}
+
+.card__number {
+  @apply mt-8 text-xl tracking-widest font-semibold;
+  letter-spacing: 3px;
+}
+
+.card__holder,
+.card__expiry-label {
+  @apply text-xs opacity-80;
+}
+
+.card__info {
+  @apply text-sm font-semibold;
+}
+
+.card__cvv-title {
+  @apply text-xs text-white;
+}
+
+.card__cvv {
+  @apply text-white bg-gray-200 text-right font-bold px-4 py-2 rounded-md w-20;
+}
+
+.card__band {
+  @apply bg-white h-12 w-full mt-6;
+}

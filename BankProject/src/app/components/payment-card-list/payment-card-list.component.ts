@@ -3,6 +3,7 @@ import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { AddCardModalComponent } from '../add-card-modal/add-card-modal.component';
+import { PaymentCard } from '../../models/card';
 
 @Component({
   selector: 'app-payment-card-list',
@@ -11,10 +12,7 @@ import { AddCardModalComponent } from '../add-card-modal/add-card-modal.componen
   styleUrl: './payment-card-list.component.css',
 })
 export class PaymentCardListComponent {
-  // private auth = inject(AuthService);
-  // username = this.auth.username();
-
-  cards = signal([
+  cards = signal<PaymentCard[]>([
     {
       number: '4242 4242 4242 4242',
       name: 'John Doe',
@@ -24,40 +22,46 @@ export class PaymentCardListComponent {
       type: 'visa',
       background:
         'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
+      balance: 1000,
     },
   ]);
 
   showModal = signal(false);
-  showAddCardModal = false;
+  selectedIndex = signal(0);
 
   openModal() {
     this.showModal.set(true);
   }
-  hideModal() {
-    this.showModal.set(false);
-  }
 
-  addCard(newCard: any) {
-    this.cards.update((cards) => [...cards, newCard]);
-  }
   closeModal() {
     this.showModal.set(false);
   }
 
-  addManualCard(card: any) {
+  addCard(newCard: PaymentCard) {
+    this.cards.update((cards) => [...cards, newCard]);
+  }
+  hideModal() {
+    this.showModal.set(false);
+  }
+  addManualCard(card: PaymentCard) {
     this.cards.update((prev) => [...prev, card]);
     this.selectedIndex.set(this.cards().length);
   }
 
-  // cards = signal([
-  //   this.generateRandomCard(this.username),
-  // ]);
+  selectedCard = computed(() => this.cards()[this.selectedIndex()]);
+
+  selectCard(index: number) {
+    this.selectedIndex.set(index);
+  }
 
   addRandomCard() {
     const types = ['visa', 'mastercard', 'amex'];
-    const type = types[Math.floor(Math.random() * types.length)];
+    const type = types[Math.floor(Math.random() * types.length)] as
+      | 'visa'
+      | 'mastercard'
+      | 'amex';
 
-    const newCard = {
+    const newCard: PaymentCard = {
       number: this.generateCardNumber(type),
       name: 'New User',
       expMonth: this.padZero(Math.floor(Math.random() * 12) + 1),
@@ -68,6 +72,7 @@ export class PaymentCardListComponent {
       type,
       background:
         'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
+      balance: 0,
     };
 
     this.cards.update((prev) => [...prev, newCard]);
@@ -91,32 +96,4 @@ export class PaymentCardListComponent {
   padZero(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;
   }
-
-  selectedIndex = signal(0);
-
-  selectedCard = computed(() => this.cards()[this.selectedIndex()]);
-
-  selectCard(index: number) {
-    this.selectedIndex.set(index);
-  }
-
-  // addRandomCard() {
-  //   const randomType = ['visa', 'mastercard', 'amex'][
-  //     Math.floor(Math.random() * 3)
-  //   ];
-  //   const newCard = {
-  //     number: Math.floor(
-  //       1000000000000000 + Math.random() * 9000000000000000
-  //     ).toString(),
-  //     name: 'New User',
-  //     expMonth: '01',
-  //     expYear: '2030',
-  //     cvv: '123',
-  //     type: randomType,
-  //   };
-
-  //   const updatedCards = [...this.cards(), newCard];
-  //   this.cards.set(updatedCards);
-  //   this.selectedIndex.set(updatedCards.length - 1);
-  // }
 }

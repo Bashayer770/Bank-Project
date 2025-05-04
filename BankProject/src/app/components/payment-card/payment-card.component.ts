@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { PaymentCard } from '../../models/card';
 
 @Component({
   selector: 'app-payment-card',
@@ -8,21 +9,13 @@ import { Component, Input } from '@angular/core';
   styleUrl: './payment-card.component.css',
 })
 export class PaymentCardComponent {
-  @Input() card!: {
-    number: string;
-    name: string;
-    expMonth: string;
-    expYear: string;
-    cvv: string;
-    type: string;
-    background: string;
-  };
+  @Input() card!: PaymentCard;
+  @Input() flipped: boolean = false;
+  @Input() background: string = '';
+
   defaultBackground: string =
     'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg';
 
-  // flipped = false;
-  @Input() flipped: boolean = false;
-  @Input() background: string = '';
   showSensitive = false;
   private hideTimeout: any;
 
@@ -61,9 +54,6 @@ export class PaymentCardComponent {
   }
 
   get backgroundImg() {
-    return (
-      this.card.background ||
-      'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg'
-    );
+    return this.card.background || this.defaultBackground;
   }
 }

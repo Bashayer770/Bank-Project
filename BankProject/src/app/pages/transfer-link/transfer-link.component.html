@@ -1,0 +1,60 @@
+
+
+@if(linkIsValid){
+
+<div style="padding: 100px;width: 100%; display: flex; flex-direction: column;align-items: center;">
+
+    <div>
+
+        <div style="background-color: red; border-radius: 10px; padding:20px; ">
+
+            <div>WOULD YOU LIKE TO TRANSFER {{this.amount}} KD TO {{this.userId}}?</div>
+            
+        </div>
+            
+        <div style="margin-top: 20px; display: flex;">
+
+            <div style="background-color: red; border-radius: 10px; padding:20px;">
+                
+                <div>MY USER</div>
+                
+                <div>MY USER IMAGE</div>
+                <div>MY BALANCE</div>
+            </div>
+
+            <div style="display: flex;
+                border-radius: 10px;
+                padding: 20px;
+                align-self: center;
+                flex-direction: column;
+                align-items: center;">
+                
+                
+                <div>{{this.amount}} KD</div>
+                <img width="200px" src="https://dsdwiki.wtb.tue.nl/images/archive/20131022130446%21Arrow.png"> 
+            </div>
+
+            <div style="background-color: red; border-radius: 10px; padding:20px;">
+                
+                <div>OTHER USER</div>
+                
+                <div>OTHER USER IMAGE</div>
+                <div>OTHER BALANCE</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; gap:20px;justify-content: center;">
+            <button (click)="Reject()" style="background-color: red; border-radius: 10px; padding:10px;">REJECT</button>
+            <button (click)="Confirm()" style="background-color: red; border-radius: 10px; padding:10px;">CONFIRM</button>
+        </div>
+
+
+    </div>
+</div>
+
+}
+@else{
+    <div>THIS LINK IS INVALID</div>
+
+}
+

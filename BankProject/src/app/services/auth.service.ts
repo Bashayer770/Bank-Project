@@ -15,7 +15,9 @@ export class AuthService {
     const formData = new FormData();
     formData.append('username', data.username);
     formData.append('password', data.password);
-    formData.append('image', data.image);
+    if (data.image) {
+      formData.append('image', data.image);
+    }
 
     return this.http.post<AuthResponse>(API.AUTH.REGISTER, formData);
   }

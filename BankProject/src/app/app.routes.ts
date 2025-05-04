@@ -3,7 +3,9 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { RegisterComponent } from './pages/auth/register/register.component';
+import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { AuthWrapperComponent } from './components/auth-wrapper/auth-wrapper.component';
+import { TransferLinkComponent } from './pages/transfer-link/transfer-link.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { UsersListComponent } from './pages/users/users.component';
 
@@ -22,4 +24,9 @@ export const routes: Routes = [
   },
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   { path: '**', redirectTo: 'auth' },
+  { path: 'home', component: HomeComponent },
+  { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard]},
+  { path: 'transferLink', component: TransferLinkComponent, canActivate: [AuthGuard]},
+  // { path: '**', redirectTo: 'login' },
 ];
+

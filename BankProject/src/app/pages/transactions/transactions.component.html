@@ -1,1 +1,59 @@
-<p>transactions works!</p>
+
+
+<div  style="display: flex; flex-direction: row; gap: 20px; padding: 10px;">
+
+    <div>
+        <input [checked]="true" checked type="radio" id="AllTypes" [(ngModel)]="transactionType" name="transactionType" value="all">
+        <label for="AllTypes">All</label>
+    </div>
+
+    <div>
+        <input type="radio" id="WithdrawType"  [(ngModel)]="transactionType" name="transactionType" value="withdraw">
+        <label for="WithdrawType">Withdraw</label>
+    </div>
+
+    <div>
+        <input type="radio" id="DepositType" [(ngModel)]="transactionType" name="transactionType" value="deposit">    
+        <label for="DepositType">Deposit</label>
+    </div>
+
+    <div>
+        <input type="radio" id="TransferFrom" [(ngModel)]="transactionType" name="transactionType" value="transferFrom">
+        <label for="TransferFrom">Transfer From</label>
+    </div>
+
+    <div>
+        <input type="radio" id="TransferTo" [(ngModel)]="transactionType" name="transactionType" value="transferTo">
+        <label for="TransferTo">TransferTo</label>
+    </div>
+
+</div>
+
+@if(transactions)
+{
+
+
+    @for (transaction of transactions; track transaction) {
+<!-- @if(transaction.type == )         -->
+
+        @if(ShouldShow(transaction)){            
+            <div style="background-color: purple; color: yellow; margin: 20px;padding: 10px; border-radius: 10px;">
+                
+                <div>{{getAmount(transaction)}}</div>
+                
+                <div style="color: red">{{getType(transaction)}}</div>
+                
+                
+                <div>{{transaction.type}}</div>
+                <div>{{transaction.from}}</div>
+                <div>{{transaction.to}}</div>
+                <div>{{transaction.createdAt}}</div>
+                <div>{{transaction.updatedAt}}</div>
+            </div>
+        }
+    }
+}
+@else {
+    <div>LOADING...</div>
+}
+

@@ -14,7 +14,7 @@ export class UsersService {
   }
 
   getAllUsers() {
-    return this.http.get<User>(API.PROFILE.ALLUSERS);
+    return this.http.get<User[]>(API.PROFILE.ALLUSERS);
   }
 
   getUserbyID(id: number) {

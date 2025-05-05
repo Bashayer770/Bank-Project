@@ -1,62 +1,181 @@
+<div
+  style="display: flex; flex-direction: column"
+  class="bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] h-screen overflow-auto"
+>
+  <div
+    style="margin-top: 6rem"
+    class="flex justify-center pb-7 text-3xl font-semibold text-[#e90f58]"
+  >
+    TRANSACTIONS
+  </div>
 
+  <div class="flex flex-row justify-center gap-2">
+    <div class="text-[#e90f58]">From</div>
+    <input
+      type="date"
+      class="bg-transparent hover:bg-[#200123]/5 rounded-lg cursor-pointer"
+      [value]="firstDate"
+    />
+    <div class="text-[#e90f58]">To</div>
+    <input
+      type="date"
+      class="bg-transparent hover:bg-[#200123]/5 rounded-lg cursor-pointer"
+      [value]="todaysDate"
+    />
+  </div>
 
-<div  style="display: flex; flex-direction: row; gap: 20px; padding: 10px; margin-top:4.5rem">
-
+  <div
+    style="
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      padding: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    "
+  >
     <div>
-        <input [checked]="true" checked type="radio" id="AllTypes" [(ngModel)]="transactionType" name="transactionType" value="all">
-        <label for="AllTypes">All</label>
+      <input
+        [checked]="true"
+        checked
+        type="radio"
+        id="AllTypes"
+        [(ngModel)]="transactionType"
+        name="transactionType"
+        value="all"
+        class="sr-only"
+      />
+      <label
+        for="AllTypes"
+        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
+        [ngClass]="{
+          'bg-[#e90f59] text-white': transactionType === 'all',
+          'hover:bg-gray-100': transactionType !== 'all'
+        }"
+        >All</label
+      >
     </div>
 
     <div>
-        <input type="radio" id="WithdrawType"  [(ngModel)]="transactionType" name="transactionType" value="withdraw">
-        <label for="WithdrawType">Withdraw</label>
+      <input
+        type="radio"
+        id="WithdrawType"
+        [(ngModel)]="transactionType"
+        name="transactionType"
+        value="withdraw"
+        class="sr-only"
+      />
+      <label
+        for="WithdrawType"
+        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
+        [ngClass]="{
+          'bg-[#e90f59] text-white': transactionType === 'withdraw',
+          'hover:bg-gray-100': transactionType !== 'withdraw'
+        }"
+        >Withdraw</label
+      >
     </div>
 
     <div>
-        <input type="radio" id="DepositType" [(ngModel)]="transactionType" name="transactionType" value="deposit">    
-        <label for="DepositType">Deposit</label>
+      <input
+        type="radio"
+        id="DepositType"
+        [(ngModel)]="transactionType"
+        name="transactionType"
+        value="deposit"
+        class="sr-only"
+      />
+      <label
+        for="DepositType"
+        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
+        [ngClass]="{
+          'bg-[#e90f59] text-white': transactionType === 'deposit',
+          'hover:bg-gray-100': transactionType !== 'deposit'
+        }"
+        >Deposit</label
+      >
     </div>
 
     <div>
-        <input type="radio" id="TransferFrom" [(ngModel)]="transactionType" name="transactionType" value="transferFrom">
-        <label for="TransferFrom">Transfer From</label>
+      <input
+        type="radio"
+        id="TransferFrom"
+        [(ngModel)]="transactionType"
+        name="transactionType"
+        value="transferFrom"
+        class="sr-only"
+      />
+      <label
+        for="TransferFrom"
+        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
+        [ngClass]="{
+          'bg-[#e90f59] text-white': transactionType === 'transferFrom',
+          'hover:bg-gray-100': transactionType !== 'transferFrom'
+        }"
+        >Transfer To</label
+      >
     </div>
 
     <div>
-        <input type="radio" id="TransferTo" [(ngModel)]="transactionType" name="transactionType" value="transferTo">
-        <label for="TransferTo">TransferTo</label>
+      <input
+        type="radio"
+        id="TransferTo"
+        [(ngModel)]="transactionType"
+        name="transactionType"
+        value="transferTo"
+        class="sr-only"
+      />
+      <label
+        for="TransferTo"
+        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
+        [ngClass]="{
+          'bg-[#e90f59] text-white': transactionType === 'transferTo',
+          'hover:bg-gray-100': transactionType !== 'transferTo'
+        }"
+        >Transfer From</label
+      >
     </div>
+  </div>
 
-</div>
+  @if(!enrichedTransactions$) {
+  <div>LOADING...</div>
+  } @else {
 
-@if(!enrichedTransactions$) {    
-    <div>LOADING...</div>  
-}
-<!-- @else if( (enrichedTransactions$| async)) {
-    <div style="padding: 100px;">YOU DONT HAVE ANY TRANSasdfACTIONS...</div>
-} -->
-@else {
+  <div style="display: flex; flex-direction: column; gap: 10px">
     @for (transaction of enrichedTransactions$ | async; track transaction) {
-        <!-- @if(transaction.type == )         -->
-        
-        @if(ShouldShow(transaction)){            
-            <div style="background-color: purple; color: yellow; margin: 20px;padding: 10px; border-radius: 10px;">
-                
-                <div>{{getAmount(transaction)}}</div>
-                
-                <div [ngStyle]="{ 'color': isPositive(transaction) ? 'green' : 'red' }">{{getType(transaction)}}</div>
-                
-<!-- 
-                <div>{{transaction.toUsername}}</div>
-                <div>{{transaction.fromUsername}}</div>
+    @if(ShouldShow(transaction)){
+    <div
+      class="shadow-md bg-white/70"
+      style="
+        color: black;
+        margin: 0px 25%;
+        padding: 15px 30px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+      "
+    >
+      <div
+        style="width: 30%"
+        [ngStyle]="{ color: isPositive(transaction) ? 'green' : 'red' }"
+      >
+        {{ getAmount(transaction) }}
+      </div>
 
-                <div>{{transaction.type}}</div>
-                <div>{{transaction.from  }}</div>
-                <div>{{transaction.to }}</div> -->
-                <div>{{transaction.createdAt}}</div>
-                <!-- <div>{{transaction.updatedAt}}</div> -->
-            </div>
-        }
-    }
-}
+      <div
+        style="width: 40%"
+        [ngStyle]="{ color: isPositive(transaction) ? 'green' : 'red' }"
+      >
+        {{ getType(transaction) }}
+      </div>
 
+      <div style="width: 30%">
+        {{ transaction.createdAt | date }}
+      </div>
+    </div>
+    } }
+  </div>
+
+  }
+</div>

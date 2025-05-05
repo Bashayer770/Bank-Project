@@ -1,13 +1,23 @@
 <div
-  class="p-5 bg-gradient-to-tl from-[#0f0f29] to-[#3b3b3b] min-h-screen text-white"
+  class="p-5 bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] min-h-screen text-white"
 >
   <h2 class="text-center text-white mb-8 text-3xl font-bold">
     My Beneficiaries
   </h2>
 
+  <div class="mb-6 flex justify-center">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="applyFilter()"
+      placeholder="Search beneficiaries by username..."
+      class="w-[30%] bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123] mt-5"
+    />
+  </div>
+
   <div
     *ngIf="loading"
-    class="text-center p-4 mb-5 rounded-lg text-lg bg-[#e9f7ef] text-[#0e5d37] border border-[#c8e6c9]"
+    class="text-center p-4 mb-5 rounded-lg text-lg bg-[#e90f58] text-black border border-[#c8e6c9]"
   >
     Loading users...
   </div>
@@ -20,50 +30,61 @@
   </div>
 
   <div
-    *ngIf="!loading && users.length === 0"
+    *ngIf="!loading && !error && filteredUsers.length === 0"
     class="text-center p-4 mb-5 rounded-lg text-lg bg-white bg-opacity-10 text-white border border-white border-opacity-20"
   >
-    No users found.
+    No users found matching your search.
   </div>
 
   <div
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center"
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-20 justify-items-center"
   >
-    <ng-container *ngFor="let user of users">
-      <div
-        class="bg-white bg-opacity-80 backdrop-blur-sm p-6 rounded-lg shadow-md flex flex-col items-center gap-4 w-full max-w-sm"
-      >
+    <ng-container *ngFor="let user of filteredUsers">
+      <!-- this is the card -->
+      <div class="bg-white rounded-2xl w-[500px] h-[325px]">
         <div
-          class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#8bb3ee]"
+          class="bg-[#200123] w-[500px] backdrop-blur-sm p-6 rounded-2xl shadow-md flex flex-col items-center gap-4"
         >
-          @if(user.image){
-          <img [src]="user.image" class="w-full h-full object-cover block" />
-          } @else {
           <div
-            class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-2xl font-bold"
+            class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#8bb3ee]"
           >
-            {{ user.username ? user.username.charAt(0).toUpperCase() : "?" }}
-          </div>
-          }
-        </div>
-        <div class="text-center">
-          <h3 class="text-lg font-bold text-[#200123]">{{ user.username }}</h3>
-          <p class="text-sm text-gray-600">
-            Balance: {{ user.balance | currency : "KWD" : "symbol" : "1.3-3" }}
-          </p>
-        </div>
+            @if(user.image){
 
+            <img
+              [src]="user.image"
+              alt="{{ user.username }}'s profile picture"
+              class="w-full h-full object-cover block"
+            />
+            } @else {
+            <div
+              class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-2xl font-bold"
+            >
+              {{ user.username ? user.username.charAt(0).toUpperCase() : "?" }}
+            </div>
+            }
+          </div>
+
+          <div class="text-center">
+            <h3 class="text-lg text-white font-semibold">
+              {{ user.username }}
+            </h3>
+            <p class="text-sm text-white">
+              Balance:
+              {{ user.balance | currency : "KWD" : "symbol" : "1.3-3" }}
+            </p>
+          </div>
+        </div>
         <div class="flex flex-col items-center gap-3 w-full mt-auto">
           <input
             type="number"
             [(ngModel)]="transferAmounts[user.username]"
             placeholder="Amount"
-            class="w-full p-2 text-center text-base border-b border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none font-semibold"
+            class="w-[90%] bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123] mt-5"
             min="0"
           />
 
           <button
-            class="w-full px-4 py-2 bg-[#8bb3ee] text-yellow-400 text-base font-semibold rounded-md shadow hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-[90%] p-2 bg-[#e90f58] text-white text-base font-semibold shadow transition-transform duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-3xl"
             (click)="initiateTransfer(user)"
             [disabled]="
               !transferAmounts[user.username] ||

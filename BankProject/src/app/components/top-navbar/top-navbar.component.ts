@@ -35,6 +35,7 @@ export class TopNavbarComponent {
 
   logout() {
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userProfile');
     this.router.navigate(['/auth']);
   }
 }

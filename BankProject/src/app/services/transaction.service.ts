@@ -22,11 +22,11 @@ export class TransactionService {
   }
 
   deposit(data: TransactionRequest): Observable<TransactionResponse> {
-    return this.http.post<TransactionResponse>(API.TRANSACTIONS.DEPOSIT, data);
+    return this.http.put<TransactionResponse>(API.TRANSACTIONS.DEPOSIT, data);
   }
 
   withdraw(data: TransactionRequest): Observable<TransactionResponse> {
-    return this.http.post<TransactionResponse>(API.TRANSACTIONS.WITHDRAW, data);
+    return this.http.put<TransactionResponse>(API.TRANSACTIONS.WITHDRAW, data);
   }
 
   transfer(data: TransferRequest): Observable<TransactionResponse> {

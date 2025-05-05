@@ -7,6 +7,10 @@ import { AddCardModalComponent } from '../../components/add-card-modal/add-card-
 import { PaymentCard } from '../../models/card';
 import { User } from '../../models/Users';
 import { UsersService } from '../../services/users/users.service';
+import { TransactionService } from '../../services/transaction.service';
+import { TransactionRequest } from '../../models/TransactionsRequest';
+import { catchError, of } from 'rxjs';
+import { TransactionResponse } from '../users/users.component';
 
 @Component({
   selector: 'app-home',
@@ -22,12 +26,21 @@ import { UsersService } from '../../services/users/users.service';
 })
 export class HomeComponent {
   currentUser: User | null = null;
-  constructor(private router: Router, private userService: UsersService) {}
+  constructor(
+    private router: Router,
+    private userService: UsersService,
+    private transactionService: TransactionService
+  ) {}
 
   ngOnInit(): void {
     this.userService.getMyProfile().subscribe({
       next: (user) => {
         this.currentUser = user;
+        this.cards.update((cards) => {
+          const updatedCards = [...cards];
+          updatedCards[0].balance = user.balance;
+          return updatedCards;
+        });
       },
       error: (err) => {
         console.error('Failed to load current user profile:', err);
@@ -53,7 +66,7 @@ export class HomeComponent {
       type: 'visa',
       background:
         'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
-      balance: 1000,
+      balance: 0,
     },
   ]);
 
@@ -97,26 +110,74 @@ export class HomeComponent {
 
   deposit(index: number | null, amount: number) {
     if (index === null || amount <= 0) return;
-    this.cards.update((cards) => {
-      const updated = [...cards];
-      updated[index].balance += amount;
-      return updated;
-    });
-    this.showToast(`Deposited $${amount}`);
+    const myTransactionData: TransactionRequest = {
+      amount: amount,
+    };
+    this.transactionService
+      .deposit(myTransactionData)
+      .pipe(
+        catchError(() => {
+          this.showToast('Error during withdrawal');
+          return of(null as any);
+        })
+      )
+      .subscribe((response: TransactionResponse | null) => {
+        if (response !== null) {
+          if (response.msg === 'Done') {
+            this.showToast(`Successfully deposit ${amount}`);
+            this.cards.update((cards) => {
+              const updated = [...cards];
+              if (updated[index].balance >= amount) {
+                updated[index].balance -= amount;
+                this.showToast(`Deposit $${amount}`);
+              } else {
+                this.showToast('Insufficient funds');
+              }
+              return updated;
+            });
+          } else {
+            this.showToast(
+              `Deposit failed: ${response.msg || 'Unknown error'}`
+            );
+          }
+        }
+      });
   }
 
   withdraw(index: number | null, amount: number) {
     if (index === null || amount <= 0) return;
-    this.cards.update((cards) => {
-      const updated = [...cards];
-      if (updated[index].balance >= amount) {
-        updated[index].balance -= amount;
-        this.showToast(`Withdrew $${amount}`);
-      } else {
-        this.showToast('Insufficient funds');
-      }
-      return updated;
-    });
+    const myTransactionData: TransactionRequest = {
+      amount: amount,
+    };
+    this.transactionService
+      .withdraw(myTransactionData)
+      .pipe(
+        catchError(() => {
+          this.showToast('Error during withdrawal');
+          return of(null as any);
+        })
+      )
+      .subscribe((response: TransactionResponse | null) => {
+        if (response !== null) {
+          if (response.msg === 'Done') {
+            this.showToast(`Successfully withdrew ${amount}`);
+            this.cards.update((cards) => {
+              const updated = [...cards];
+              if (updated[index].balance >= amount) {
+                updated[index].balance -= amount;
+                this.showToast(`Withdrew $${amount}`);
+              } else {
+                this.showToast('Insufficient funds');
+              }
+              return updated;
+            });
+          } else {
+            this.showToast(
+              `Withdrawal failed: ${response.msg || 'Unknown error'}`
+            );
+          }
+        }
+      });
   }
 
   showToast(message: string) {

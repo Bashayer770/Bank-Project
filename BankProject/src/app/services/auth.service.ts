@@ -4,8 +4,14 @@ import { Observable } from 'rxjs';
 import { API } from '../services/index';
 import { AuthResponse } from '../models/AuthResponse';
 import { LoginRequest, RegisterRequest } from '../models/AuthRequest';
-import { Transaction, TransactionResponse } from '../models/TransactionsResponse';
-import { TransactionRequest, TransferRequest } from '../models/TransactionsRequest';
+import {
+  Transaction,
+  TransactionResponse,
+} from '../models/TransactionsResponse';
+import {
+  TransactionRequest,
+  TransferRequest,
+} from '../models/TransactionsRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -27,22 +33,4 @@ export class AuthService {
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(API.AUTH.LOGIN, data);
   }
-
-
-    getMyTransactions(): Observable<Transaction[]> {
-      return this.http.get<Transaction[]>(API.TRANSACTIONS.MY);
-    }
-  
-    deposit(data: TransactionRequest): Observable<TransactionResponse> {
-      return this.http.post<TransactionResponse>(API.TRANSACTIONS.DEPOSIT, data);
-    }
-  
-    withdraw(data: TransactionRequest): Observable<TransactionResponse> {
-      return this.http.post<TransactionResponse>(API.TRANSACTIONS.WITHDRAW, data);
-    }
-  
-    transfer(data: TransferRequest): Observable<TransactionResponse> {
-      return this.http.post<TransactionResponse>(API.TRANSACTIONS.TRANSFER + data.username, data);
-    }
-    
 }

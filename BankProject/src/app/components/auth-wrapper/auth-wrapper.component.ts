@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../services/users/users.service';
+import { User } from '../../models/Users';
 
 @Component({
   selector: 'app-auth-wrapper',
@@ -29,7 +31,11 @@ export class AuthWrapperComponent {
     image: null as File | null,
   };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UsersService,
+    private router: Router
+  ) {}
   ngOnInit() {
     const savedUsername = localStorage.getItem('rememberedUsername');
     const savedPassword = localStorage.getItem('rememberedPassword');
@@ -99,6 +105,7 @@ export class AuthWrapperComponent {
       next: (res) => {
         console.log('Login Payload:', this.loginData);
         sessionStorage.setItem('token', res.token);
+        this.setUserProfileSession();
         // this.router.navigate(['/home']);
         this.exitAnimation = true;
         setTimeout(() => {
@@ -109,6 +116,25 @@ export class AuthWrapperComponent {
         this.errorMessage = err.error?.message || 'Login failed.';
         this.loading = false;
       },
+    });
+  }
+
+  setUserProfileSession() {
+    this.userService.getAllUsers().subscribe((users: User[]) => {
+      console.log('SEARCHING');
+
+      for (const user of users) {
+        if (user.username === this.loginData.username) {
+          sessionStorage.setItem('userProfile', JSON.stringify(user));
+          console.log('FOUND USER Profile:', user);
+          break;
+        }
+      }
+      // if (user) {
+      //   sessionStorage.setItem('userProfile', JSON.stringify(user));
+      // } else {
+      //   console.error('User not found');
+      // }
     });
   }
 }

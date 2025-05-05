@@ -1,23 +1,17 @@
 <div
-  class="relative w-screen h-screen bg-gradient-to-tl from-[#0f0f29] to-[#3b3b3b] overflow-hidden"
+  class="relative w-screen h-screen bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] overflow-hidden"
 >
-  <!-- LOGOUT -->
-  <!-- <button
-    class="absolute top-6 left-6 px-4 py-2 bg-[#8bb3ee] text-white rounded-lg shadow-md hover:bg-red-700"
-    (click)="logout()"
-  >
-    Logout
-  </button> -->
-
+  <!-- ADD CARD BUTTON -->
   <button
-    class="absolute bottom-6 left-6 px-6 py-2 bg-[#e90f58] text-white font-semibold rounded-xl shadow-lg transition-transform duration-300 hover:scale-105"
+    class="absolute bottom-6 left-6 px-6 py-2 bg-[#e90f58] text-white font-semibold rounded-3xl shadow-lg transition-transform duration-300 hover:scale-105"
     (click)="openModal()"
   >
-    + Add Card
+    + Add Digital Card
   </button>
-  <!-- CARDS AREA -->
+
+  <!-- CARDS STACK AREA -->
   <div
-    class="absolute top-1/2 right-[-140px] transform -translate-y-1/2 flex flex-col items-end gap-[-100px]"
+    class="absolute top-1/2 right-[-140px] transform -translate-y-1/2 flex flex-col items-end gap-[-100px] z-20"
   >
     <ng-container *ngFor="let card of cards(); let i = index">
       <div
@@ -26,7 +20,7 @@
         (click)="selectCard(i)"
       >
         <app-payment-card
-          [card]="card"
+          [card]="toPaymentCard(card)"
           [background]="card.background"
           [flipped]="false"
         />
@@ -34,56 +28,112 @@
     </ng-container>
   </div>
 
+  <!-- ✅ BLACK SIDEBAR BACKGROUND (BELOW CARDS) -->
+  <div
+    class="absolute top-0 right-0 w-[16%] h-[93.5%] bg-[#200123] rounded-l-3xl mt-[4%] z-0"
+  >
+    <!-- <button
+      class="absolute top-6 left-11 px-6 py-2 bg-[#e90f58] text-white font-semibold rounded-3xl shadow-lg transition-transform duration-300 hover:scale-105"
+      (click)="openModal()"
+    >
+      + Create Digital Card
+    </button> -->
+  </div>
+
+  <!-- SELECTED CARD DISPLAY + ACTIONS -->
   <div *ngIf="selectedCardIndex() !== null">
     <ng-container *ngIf="selectedCard() as selected">
+      <!-- Swiped-In Selected Card -->
       <div class="fixed left-1/2 top-20 transform -translate-x-1/2 z-30">
         <div class="animate-swipe-in">
           <app-payment-card
-            [card]="selected"
+            [card]="toPaymentCard(selected)"
             [background]="selected.background"
             [flipped]="false"
           />
         </div>
       </div>
 
-      <!-- Balance and infos -->
-
+      <!-- BALANCE AND ACTIONS CONTAINER -->
       <div
-        class="fixed left-1/2 top-[280px] mt-10 transform -translate-x-1/2 w-[30%] h-[50%] p-6 rounded-xl bg-white/70 shadow-xl text-center z-1 transition-all duration-700 ease-out"
+        class="fixed left-1/2 top-[280px] mt-7 transform -translate-x-1/2 w-[30%] h-[65%] p-6 rounded-xl bg-white/40 shadow-xl text-center z-10 transition-all duration-700 ease-out"
       >
         <div class="h-10"></div>
         <p class="text-3xl font-bold mb-4 text-center text-[#200123]">
           Balance: {{ getSelectedBalance() }}
         </p>
-        <div class="h-24"></div>
+        <div class="h-10"></div>
 
-        <div class="flex items-center gap-4 justify-center mb-4">
+        <div class="flex items-center gap-4 justify-center mb-2">
           <input
             type="number"
             [(ngModel)]="transactionAmount"
             placeholder="Amount"
-            class="p-2 mb-3 text-3xl border-b text-center italic border-[#200123]/70 bg-transparent text-[#200123] font-semibold placeholder-[#200123]/70 focus:outline-none"
+            class="w-full bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123]"
           />
         </div>
+
         <div class="h-8"></div>
         <div class="flex justify-center gap-14">
           <button
-            class="w-[30%] py-2 bg-[#200123] text-white font-semibold shadow-md rounded-lg transition-transform duration-300 hover:scale-105"
+            class="w-[30%] py-2 bg-[#200123] text-white font-semibold shadow-md rounded-3xl transition-transform duration-300 hover:scale-105"
             (click)="deposit(selectedCardIndex(), transactionAmount)"
           >
             Deposit
           </button>
           <button
-            class="w-[30%] py-2 bg-[#e90f58] shadow-md text-white font-semibold rounded-lg transition-transform duration-300 hover:scale-105"
+            class="w-[30%] py-2 bg-[#e90f58] shadow-md text-white font-semibold rounded-3xl transition-transform duration-300 hover:scale-105"
             (click)="withdraw(selectedCardIndex(), transactionAmount)"
           >
             Withdraw
+          </button>
+        </div>
+        <!-- 🔄 Transfer Button SVG -->
+        <div class="flex justify-center pr-3 mt-5">
+          <button
+            (click)="toggleTransferSection()"
+            class="hover:scale-110 transition"
+          >
+            <app-card-transfer-bold class="w-8 h-8 text-[#e90f58]" />
+          </button>
+        </div>
+        <div *ngIf="showTransferSection()" class="mt-6">
+          <h3 class="text-lg font-semibold text-[#200123] mb-2">
+            Transfer To:
+          </h3>
+
+          <select
+            [(ngModel)]="transferTargetIndex"
+            class="w-full bg-[#200123]/5 p-3 border rounded-3xl text-[#200123] mb-5"
+          >
+            <option
+              *ngFor="let card of cards(); let i = index"
+              [value]="i"
+              [disabled]="i === selectedCardIndex()"
+            >
+              {{ card.username }} - ${{ card.balance }}
+            </option>
+          </select>
+
+          <input
+            type="number"
+            [(ngModel)]="transferAmount"
+            placeholder="Amount"
+            class="w-full bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123] mb-5"
+          />
+
+          <button
+            class="w-full p-3 bg-[#200123] text-white font-semibold shadow-md rounded-3xl transition-transform duration-300 hover:scale-105"
+            (click)="transfer()"
+          >
+            Confirm Transfer
           </button>
         </div>
       </div>
     </ng-container>
   </div>
 
+  <!-- TOAST NOTIFICATION -->
   <div
     *ngIf="toastMessage()"
     class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in"
@@ -91,8 +141,10 @@
     {{ toastMessage() }}
   </div>
 
+  <!-- ADD CARD MODAL -->
   <app-add-card-modal
     *ngIf="showModal()"
+    [username]="user?.username"
     (save)="addCard($event)"
     (closeModal)="closeModal()"
   ></app-add-card-modal>

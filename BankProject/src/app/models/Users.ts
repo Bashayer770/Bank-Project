@@ -3,4 +3,5 @@ export interface User {
   username: string;
   image: File | null;
   balance: number;
+  background?: string;
 }

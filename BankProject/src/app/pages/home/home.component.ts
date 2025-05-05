@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +7,7 @@ import { AddCardModalComponent } from '../../components/add-card-modal/add-card-
 import { PaymentCard } from '../../models/card';
 import { User } from '../../models/Users';
 import { UsersService } from '../../services/users/users.service';
+import { CardTransferBoldComponent } from '../../svg/card-transfer-bold/card-transfer-bold.component';
 
 @Component({
   selector: 'app-home',
@@ -16,53 +17,61 @@ import { UsersService } from '../../services/users/users.service';
     AddCardModalComponent,
     CommonModule,
     FormsModule,
+    CardTransferBoldComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
-  currentUser: User | null = null;
-  constructor(private router: Router, private userService: UsersService) {}
+export class HomeComponent implements OnInit {
+  constructor(private router: Router, private usersService: UsersService) {}
 
-  ngOnInit(): void {
-    this.userService.getMyProfile().subscribe({
-      next: (user) => {
-        this.currentUser = user;
-      },
-      error: (err) => {
-        console.error('Failed to load current user profile:', err);
-      },
-    });
-  }
-
-  goToUserProfile(): void {
-    this.router.navigate(['/profile']);
-  }
-
-  goToUsersList(): void {
-    this.router.navigate(['/users']);
-  }
-
-  cards = signal<PaymentCard[]>([
-    {
-      number: '4242 4242 4242 4242',
-      name: 'John Doe',
-      expMonth: '12',
-      expYear: '2027',
-      cvv: '123',
-      type: 'visa',
-      background:
-        'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
-      balance: 1000,
-    },
-  ]);
-
+  cards = signal<UserWithCardProps[]>([]);
   selectedCardIndex = signal<number | null>(null);
   showAddCardModal = signal(false);
   transactionAmount = 0;
   toastMessage = signal<string | null>(null);
+  user: User | null = null;
+  isDeposit: boolean = true;
+  transferAmount = 0;
+  showTransferSection = signal(false);
+  transferTargetIndex: number | null = null;
 
-  // Modal Control
+  ngOnInit(): void {
+    this.usersService.getMyProfile().subscribe((userData: User) => {
+      this.user = userData;
+      this.cards.set([{ ...userData, background: '#8bb3ee' }]);
+    });
+  }
+  transfer() {
+    const from = this.selectedCardIndex();
+    const to = this.transferTargetIndex;
+    const amount = this.transferAmount;
+
+    if (from === null || to === null || from === to || amount <= 0) {
+      this.showToast('Invalid transfer details');
+      return;
+    }
+
+    const cards = [...this.cards()];
+    if (cards[from].balance < amount) {
+      this.showToast('Insufficient balance');
+      return;
+    }
+
+    cards[from].balance -= amount;
+    cards[to].balance += amount;
+
+    this.cards.set(cards);
+    this.showToast(`Transferred $${amount} to ${cards[to].username}`);
+    this.transferAmount = 0;
+    this.transferTargetIndex = null;
+    this.showTransferSection.set(false);
+  }
+
+  toggleTransferSection() {
+    this.showTransferSection.update((v) => !v);
+  }
+
   showModal() {
     return this.showAddCardModal();
   }
@@ -75,9 +84,17 @@ export class HomeComponent {
     this.showAddCardModal.set(false);
   }
 
-  // Card Operations
   addCard(newCard: PaymentCard) {
-    this.cards.update((cards) => [...cards, { ...newCard, balance: 0 }]);
+    const userCard: UserWithCardProps = {
+      id: Date.now(),
+      username: newCard.name,
+      image: null,
+      balance: newCard.balance ?? 0,
+      background: newCard.background ?? '#8bb3ee',
+      card: newCard,
+    };
+
+    this.cards.update((cards) => [...cards, userCard]);
     this.closeModal();
   }
 
@@ -90,7 +107,7 @@ export class HomeComponent {
     this.selectedCardIndex.set(index);
   }
 
-  selectedCard(): PaymentCard | null {
+  selectedCard() {
     const index = this.selectedCardIndex();
     return index !== null ? this.cards()[index] : null;
   }
@@ -98,9 +115,11 @@ export class HomeComponent {
   deposit(index: number | null, amount: number) {
     if (index === null || amount <= 0) return;
     this.cards.update((cards) => {
-      const updated = [...cards];
-      updated[index].balance += amount;
-      return updated;
+      cards[index] = {
+        ...cards[index],
+        balance: cards[index].balance + amount,
+      };
+      return [...cards];
     });
     this.showToast(`Deposited $${amount}`);
   }
@@ -108,24 +127,47 @@ export class HomeComponent {
   withdraw(index: number | null, amount: number) {
     if (index === null || amount <= 0) return;
     this.cards.update((cards) => {
-      const updated = [...cards];
-      if (updated[index].balance >= amount) {
-        updated[index].balance -= amount;
+      if (cards[index].balance >= amount) {
+        cards[index] = {
+          ...cards[index],
+          balance: cards[index].balance - amount,
+        };
         this.showToast(`Withdrew $${amount}`);
       } else {
         this.showToast('Insufficient funds');
       }
-      return updated;
+      return [...cards];
     });
   }
 
   showToast(message: string) {
     this.toastMessage.set(message);
-    setTimeout(() => this.toastMessage.set(null), 3000);
+    setTimeout(() => {
+      this.toastMessage.set(null);
+    }, 3000);
   }
 
   logout() {
     sessionStorage.removeItem('token');
     this.router.navigate(['/auth']);
   }
+  toPaymentCard(user: UserWithCardProps): PaymentCard {
+    return {
+      number: user.card?.number?.toString() ?? '4254 2522 2442 7762',
+      name: user.card?.name ?? user.username,
+      expMonth: user.card?.expMonth ?? '01',
+      expYear: user.card?.expYear ?? '27',
+      cvv: user.card?.cvv ?? '533',
+      type: user.card?.type ?? 'Visa',
+      background:
+        user.card?.background ??
+        'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
+      balance: user.balance ?? 0,
+    };
+  }
+}
+
+interface UserWithCardProps extends User {
+  background: string;
+  card?: PaymentCard;
 }

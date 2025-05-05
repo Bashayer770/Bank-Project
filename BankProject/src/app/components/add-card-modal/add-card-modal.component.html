@@ -66,13 +66,13 @@
     </div>
     <div class="w-full my-4">
       <h3 class="text-sm text-[#200123]/80 mb-2">Choose a Card Skin:</h3>
-      <div class="flex gap-3 overflow-x-auto">
+      <div class="flex gap-2 overflow-x-auto p-2">
         <img
           *ngFor="let skin of skins"
           [src]="skin"
           (click)="selectSkin(skin)"
-          [class.ring-4]="skin === selectedSkin"
-          class="w-24 h-16 object-cover rounded-xl cursor-pointer border border-[#200123]/40 hover:scale-105 transition"
+          [class.selected]="selectedSkin === skin"
+          class="w-24 h-14 rounded-lg border-2 cursor-pointer hover:scale-105 transition"
         />
       </div>
     </div>

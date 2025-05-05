@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { PaymentCard } from '../../models/card';
@@ -13,9 +13,10 @@ import { PaymentCard } from '../../models/card';
 export class AddCardModalComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() save = new EventEmitter<PaymentCard>();
+  @Input() username: string | undefined;
 
   flipped = false;
-  selectedSkin: string = '';
+  selectedSkin: string = 'default-skin';
   expiry: string = '';
 
   skins = [
@@ -37,11 +38,36 @@ export class AddCardModalComponent {
     balance: 0,
   };
 
+  // ngOnInit() {
+  //   this.selectedSkin = this.skins[0];
+  //   this.card.background = this.selectedSkin;
+  // }
+
   ngOnInit() {
     this.selectedSkin = this.skins[0];
     this.card.background = this.selectedSkin;
+
+    this.card.number = this.generateCardNumber();
+    this.card.cvv = this.generateCVV();
+    this.card.expMonth = this.padZero(Math.floor(Math.random() * 12) + 1);
+    this.card.expYear = (new Date().getFullYear() + 3).toString();
+    this.card.name = this.username ?? 'Unknown User';
+    this.expiry = `${this.card.expMonth}/${this.card.expYear.slice(2)}`;
+  }
+  generateCardNumber(): string {
+    const digits = `4${Array.from({ length: 15 }, () =>
+      Math.floor(Math.random() * 10)
+    ).join('')}`;
+    return digits.replace(/(.{4})/g, '$1 ').trim();
   }
 
+  generateCVV(): string {
+    return Math.floor(100 + Math.random() * 900).toString();
+  }
+
+  padZero(num: number): string {
+    return num < 10 ? `0${num}` : `${num}`;
+  }
   selectSkin(skin: string) {
     this.selectedSkin = skin;
     this.card.background = skin;
@@ -78,6 +104,9 @@ export class AddCardModalComponent {
     this.expiry = value;
     this.card.expMonth = this.expiry.slice(0, 2);
     this.card.expYear = '20' + this.expiry.slice(3);
+  }
+  setSkin(skin: string) {
+    this.selectedSkin = skin;
   }
 
   saveCard() {

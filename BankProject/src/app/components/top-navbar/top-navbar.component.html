@@ -10,18 +10,23 @@
   <ul class="nav-links" [class.open]="isMenuOpen()">
     <li>
       <!-- <a routerLink="/home" class="cursor-pointer">Home</a> -->
-      <button class="cursor-pointer" (click)="goToHome()">Home</button>
+      <button class="cursor-pointer hover:text-[#e90f58]" (click)="goToHome()">
+        HOME
+      </button>
     </li>
     <li>
       <!-- <a routerLink="/user" class="cursor-pointer">User</a> -->
-      <button class="cursor-pointer" (click)="goToUsers()">
-        My Beneficiaries
+      <button class="cursor-pointer hover:text-[#e90f58]" (click)="goToUsers()">
+        MY BENEFICIARIES
       </button>
     </li>
     <li>
       <!-- <a routerLink="/transactions" class="cursor-pointer">Transactions</a> -->
-      <button class="cursor-pointer" (click)="goToTransactions()">
-        Transactions
+      <button
+        class="cursor-pointer hover:text-[#e90f58]"
+        (click)="goToTransactions()"
+      >
+        TRANSACTIONS
       </button>
     </li>
     <!-- <li><a routerLink="/profile" class="cursor-pointer">Profile</a></li> -->

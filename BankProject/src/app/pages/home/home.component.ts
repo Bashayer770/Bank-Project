@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
   transferTargetIndex: number | null = null;
 
   ngOnInit(): void {
-    this.usersService.getMyProfile().subscribe((userData: User) => {
+    this.userService.getMyProfile().subscribe((userData: User) => {
       this.user = userData;
       this.cards.set([{ ...userData, background: '#8bb3ee' }]);
     });
@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
 
   addCard(newCard: PaymentCard) {
     const userCard: UserWithCardProps = {
-      id: Date.now(),
+      _id: Date.now().toString(),
       username: newCard.name,
       image: null,
       balance: newCard.balance ?? 0,

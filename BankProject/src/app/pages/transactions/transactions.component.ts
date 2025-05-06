@@ -99,4 +99,16 @@ export class TransactionsComponent {
     if (user) return user._id;
     else return 'Unknown';
   }
+
+  GetRadioString(name: string):string{ //This should be a pipe
+    switch(name){
+      case 'all': return 'All'
+      case 'deposit': return 'Deposit'
+      case 'withdraw': return 'Withdraw'
+      case 'transferFrom': return 'Transfer From'
+      case 'transferTo': return 'Transfer To'
+    }
+    return ''
+  }
+
 }

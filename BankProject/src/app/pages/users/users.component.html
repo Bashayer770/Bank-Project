@@ -1,8 +1,11 @@
 <div
   class="p-5 bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] min-h-screen text-white"
 >
-  <h2 class="text-center text-white mb-8 text-3xl font-bold">
-    My Beneficiaries
+  <h2
+    style="margin-top: 6rem"
+    class="flex justify-center pb-7 text-3xl font-semibold text-[#e90f58]"
+  >
+    MY BENEFICIARIES
   </h2>
 
   <div class="mb-6 flex justify-center">
@@ -11,97 +14,99 @@
       [(ngModel)]="searchTerm"
       (input)="applyFilter()"
       placeholder="Search beneficiaries by username..."
-      class="w-[30%] bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123] mt-5"
+      class="w-[40%] bg-[#200123]/5 p-2 text-center italic text-xl border rounded-3xl text-[#200123] mt-5"
     />
   </div>
 
-  <div
-    *ngIf="loading"
-    class="text-center p-4 mb-5 rounded-lg text-lg bg-[#e90f58] text-black border border-[#c8e6c9]"
-  >
-    Loading users...
+  <div *ngIf="loading" class="flex items-center justify-center">
+    <div
+      class="size-5 h-16 w-16 rounded-full text-lg border border-[#e90f58] border-t-4 border-r-4 text-black animate-spin"
+    ></div>
   </div>
+  <div className="flex flex-col items-center gap-y-4">
+    <div
+      *ngIf="error"
+      class="text-center p-4 mb-5 rounded-lg text-lg bg-[#fbe9e7] text-[#c62828] border border-[#ffccbc]"
+    >
+      {{ error }}
+    </div>
 
-  <div
-    *ngIf="error"
-    class="text-center p-4 mb-5 rounded-lg text-lg bg-[#fbe9e7] text-[#c62828] border border-[#ffccbc]"
-  >
-    {{ error }}
-  </div>
-
-  <div
-    *ngIf="!loading && !error && filteredUsers.length === 0"
-    class="text-center p-4 mb-5 rounded-lg text-lg bg-white bg-opacity-10 text-white border border-white border-opacity-20"
-  >
-    No users found matching your search.
-  </div>
-
-  <div
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-20 justify-items-center"
-  >
-    <ng-container *ngFor="let user of filteredUsers">
-      <!-- this is the card -->
-      <div class="bg-white rounded-2xl w-[500px] h-[325px]">
-        <div
-          class="bg-[#200123] w-[500px] backdrop-blur-sm p-6 rounded-2xl shadow-md flex flex-col items-center gap-4"
-        >
+    <div
+      *ngIf="!loading && !error && filteredUsers.length === 0"
+      class="text-center p-4 mb-5 rounded-lg text-lg bg-white bg-opacity-10 text-white border border-white border-opacity-20"
+    >
+      No users found matching your search.
+    </div>
+    <div class="h-8"></div>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-24 justify-items-center"
+    >
+      <ng-container *ngFor="let user of filteredUsers">
+        <!-- this is the card -->
+        <div class="bg-white rounded-2xl w-[400px] h-[360px]">
           <div
-            class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#8bb3ee]"
+            class="bg-[#200123] w-[400px] backdrop-blur-sm p-6 rounded-2xl shadow-md flex flex-col items-center gap-4"
           >
-            @if(user.image){
-
-            <img
-              [src]="user.image"
-              alt="{{ user.username }}'s profile picture"
-              class="w-full h-full object-cover block"
-            />
-            } @else {
             <div
-              class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-2xl font-bold"
+              class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#8bb3ee]"
             >
-              {{ user.username ? user.username.charAt(0).toUpperCase() : "?" }}
+              @if(user.image){
+
+              <img
+                [src]="user.image"
+                alt="{{ user.username }}'s profile picture"
+                class="w-full h-full object-cover block"
+              />
+              } @else {
+              <div
+                class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-2xl font-bold"
+              >
+                {{
+                  user.username ? user.username.charAt(0).toUpperCase() : "?"
+                }}
+              </div>
+              }
             </div>
-            }
-          </div>
 
-          <div class="text-center">
-            <h3 class="text-lg text-white font-semibold">
-              {{ user.username }}
-            </h3>
-            <p class="text-sm text-white">
-              Balance:
-              {{ user.balance | currency : "KWD" : "symbol" : "1.3-3" }}
-            </p>
+            <div class="text-center">
+              <h3 class="text-lg text-white font-semibold">
+                {{ user.username }}
+              </h3>
+              <p class="text-sm text-white">
+                Balance:
+                {{ user.balance | currency : "KWD" : "symbol" : "1.3-3" }}
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-center gap-3 w-full mt-5">
+            <input
+              type="number"
+              [(ngModel)]="transferAmounts[user.username]"
+              placeholder="Amount"
+              class="w-[90%] bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123] mt-5"
+              min="0"
+            />
+
+            <button
+              class="w-[90%] p-2 bg-[#e90f58] text-white text-base font-semibold shadow transition-transform duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-3xl"
+              (click)="initiateTransfer(user)"
+              [disabled]="
+                !transferAmounts[user.username] ||
+                transferAmounts[user.username]! <= 0
+              "
+            >
+              Transfer
+            </button>
           </div>
         </div>
-        <div class="flex flex-col items-center gap-3 w-full mt-auto">
-          <input
-            type="number"
-            [(ngModel)]="transferAmounts[user.username]"
-            placeholder="Amount"
-            class="w-[90%] bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123] mt-5"
-            min="0"
-          />
+      </ng-container>
+    </div>
 
-          <button
-            class="w-[90%] p-2 bg-[#e90f58] text-white text-base font-semibold shadow transition-transform duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-3xl"
-            (click)="initiateTransfer(user)"
-            [disabled]="
-              !transferAmounts[user.username] ||
-              transferAmounts[user.username]! <= 0
-            "
-          >
-            Transfer
-          </button>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-
-  <div
-    *ngIf="toastMessage"
-    class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in"
-  >
-    {{ toastMessage }}
+    <div
+      *ngIf="toastMessage"
+      class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in"
+    >
+      {{ toastMessage }}
+    </div>
   </div>
 </div>

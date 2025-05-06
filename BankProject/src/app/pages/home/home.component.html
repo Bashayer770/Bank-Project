@@ -1,9 +1,42 @@
 <div
   class="relative w-screen h-screen bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] overflow-hidden"
 >
+  <!-- WELCOME SECTION (hidden after card is selected) -->
+  <div
+    *ngIf="selectedCardIndex() === null"
+    class="absolute top-10 left-28 z-50 mt-[300px]"
+  >
+    <h1 class="text-8xl font-extrabold text-[#200123]">
+      WELCOME, {{ user?.username?.toUpperCase() }}
+    </h1>
+    <div class="flex justify-end items-center gap-4 mt-4">
+      <span class="text-xl text-[#200123]/90 font-medium">
+        Start your transactions
+      </span>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 14 14"
+        width="48"
+        height="48"
+        class="text-[#e90f58]"
+      >
+        <g
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="m10.5 11.5l3-3l-3-3"></path>
+          <path d="M.5 2.5v2a4 4 0 0 0 4 4h9"></path>
+        </g>
+      </svg>
+    </div>
+  </div>
   <!-- ADD CARD BUTTON -->
+
   <button
-    class="absolute bottom-6 left-6 px-6 py-2 bg-[#e90f58] text-white font-semibold rounded-3xl shadow-lg transition-transform duration-300 hover:scale-105"
+    class="absolute bottom-6 right-80 px-6 py-2 bg-[#e90f58] text-white font-semibold rounded-3xl shadow-lg transition-transform duration-300 hover:scale-105"
     (click)="openModal()"
   >
     + Add Digital Card
@@ -69,7 +102,7 @@
             type="number"
             [(ngModel)]="transactionAmount"
             placeholder="Amount"
-            class="w-full bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123]"
+            class="appearance-none w-full bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123]"
           />
         </div>
 
@@ -77,22 +110,35 @@
         <div class="flex justify-center gap-14">
           <button
             class="w-[30%] py-2 bg-[#200123] text-white font-semibold shadow-md rounded-3xl transition-transform duration-300 hover:scale-105"
-            (click)="deposit(selectedCardIndex(), transactionAmount)"
+            [disabled]="!transactionAmount"
+            (click)="
+              transactionAmount !== null &&
+                deposit(selectedCardIndex(), transactionAmount)
+            "
           >
             Deposit
           </button>
           <button
             class="w-[30%] py-2 bg-[#e90f58] shadow-md text-white font-semibold rounded-3xl transition-transform duration-300 hover:scale-105"
-            (click)="withdraw(selectedCardIndex(), transactionAmount)"
+            [disabled]="!transactionAmount"
+            (click)="
+              transactionAmount !== null &&
+                withdraw(selectedCardIndex(), transactionAmount)
+            "
           >
             Withdraw
           </button>
         </div>
         <!-- 🔄 Transfer Button SVG -->
-        <div class="flex justify-center pr-3 mt-5">
+        <div class="flex justify-start pl-10 pt-3 flex-row pr-3 mt-5 gap-5">
+          <button class="hover:scale-110 transition bg-black/10 p-1 rounded-xl">
+            <app-hand-holding-dollar
+              class="w-8 h-8 text-[#e90f58]"
+            ></app-hand-holding-dollar>
+          </button>
           <button
             (click)="toggleTransferSection()"
-            class="hover:scale-110 transition"
+            class="hover:scale-110 transition bg-black/10 p-1 rounded-xl"
           >
             <app-card-transfer-bold class="w-8 h-8 text-[#e90f58]" />
           </button>

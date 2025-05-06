@@ -1,20 +1,36 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Router, NavigationEnd, RouterLinkActive } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-top-navbar',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './top-navbar.component.html',
   styleUrl: './top-navbar.component.css',
 })
 export class TopNavbarComponent {
   isMenuOpen = signal(false);
-
-  constructor(private router: Router) {}
+  currentRoute = signal<string>('');
+  constructor(private router: Router) {
+    this.currentRoute.set(this.router.url);
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event) => {
+        this.currentRoute.set(event.urlAfterRedirects);
+      });
+  }
 
   toggleMenu() {
     this.isMenuOpen.set(!this.isMenuOpen());
+  }
+  isActive(route: string): boolean {
+    return this.router.url.startsWith(route);
   }
 
   goToHome() {

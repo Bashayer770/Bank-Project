@@ -23,7 +23,7 @@
       [value]="todaysDate"
     />
   </div>
-
+  <div class="h-4"></div>
   <div
     style="
       display: flex;
@@ -136,20 +136,24 @@
       >
     </div>
   </div>
-
+  <div class="h-7"></div>
   @if(!enrichedTransactions$) {
-  <div>LOADING...</div>
+  <div class="flex items-center justify-center">
+    <div
+      class="size-5 h-16 w-16 rounded-full text-lg border border-[#e90f58] border-t-4 border-r-4 text-black animate-spin"
+    ></div>
+  </div>
   } @else {
 
   <div style="display: flex; flex-direction: column; gap: 10px">
     @for (transaction of enrichedTransactions$ | async; track transaction) {
     @if(ShouldShow(transaction)){
     <div
-      class="shadow-md bg-white/70"
+      class="shadow-lg bg-white/5 p-7"
       style="
-        color: black;
+        color: #200123;
         margin: 0px 25%;
-        padding: 15px 30px;
+
         border-radius: 10px;
         display: flex;
         flex-direction: row;
@@ -170,7 +174,7 @@
         {{ getType(transaction) }}
       </div>
 
-      <div style="width: 30%">
+      <div style="width: 30%; color: #200123">
         {{ transaction.createdAt | date }}
       </div>
     </div>

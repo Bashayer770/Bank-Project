@@ -12,6 +12,7 @@ import { TransactionRequest } from '../../models/TransactionsRequest';
 import { catchError, of } from 'rxjs';
 import { TransactionResponse } from '../users/users.component';
 import { CardTransferBoldComponent } from '../../svg/card-transfer-bold/card-transfer-bold.component';
+import { HandHoldingDollarComponent } from '../../svg/hand-holding-dollar/hand-holding-dollar.component';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,8 @@ import { CardTransferBoldComponent } from '../../svg/card-transfer-bold/card-tra
     CommonModule,
     FormsModule,
     CardTransferBoldComponent,
+    HandHoldingDollarComponent,
+    HandHoldingDollarComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -37,7 +40,7 @@ export class HomeComponent implements OnInit {
   cards = signal<UserWithCardProps[]>([]);
   selectedCardIndex = signal<number | null>(null);
   showAddCardModal = signal(false);
-  transactionAmount = 0;
+  transactionAmount: number | null = null;
   toastMessage = signal<string | null>(null);
   user: User | null = null;
   isDeposit: boolean = true;
@@ -51,6 +54,7 @@ export class HomeComponent implements OnInit {
       this.cards.set([{ ...userData, background: '#8bb3ee' }]);
     });
   }
+
   transfer() {
     const from = this.selectedCardIndex();
     const to = this.transferTargetIndex;

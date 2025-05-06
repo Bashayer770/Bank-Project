@@ -20,11 +20,12 @@ export class AddCardModalComponent {
   expiry: string = '';
 
   skins = [
-    'https://img.freepik.com/free-vector/gradient-abstract-wireframe-background_23-2149009903.jpg?semt=ais_hybrid&w=740',
+    'https://st4.depositphotos.com/13349494/21086/i/450/depositphotos_210865964-stock-photo-red-bokeh-black-background-celebration.jpg',
     'https://images.freeimages.com/images/large-previews/a43/textured-gradient-background-0410-5697130.jpg?fmt=webp&w=500',
     'https://w0.peakpx.com/wallpaper/957/892/HD-wallpaper-blue-gradient-2021-abstract-art-design-ultra-poster.jpg',
     'https://i0.wp.com/backgroundabstract.com/wp-content/uploads/edd/2021/09/gradient-blue-pink-abstract-art-wallpaper-preview-e1656162284223.jpg',
     'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
+    'https://media.istockphoto.com/id/2165041511/vector/abstract-black-and-gray-color-gradient-background.jpg?s=612x612&w=0&k=20&c=gqSsRRunIq39-mi5hm85tAJf93D-ds6D9mzDEm7kBp4=',
   ];
 
   card: PaymentCard = {

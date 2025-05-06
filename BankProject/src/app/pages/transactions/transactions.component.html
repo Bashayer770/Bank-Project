@@ -34,110 +34,32 @@
       margin-bottom: 20px;
     "
   >
-    <div>
-      <input
-        [checked]="true"
-        checked
-        type="radio"
-        id="AllTypes"
-        [(ngModel)]="transactionType"
-        name="transactionType"
-        value="all"
-        class="sr-only"
-      />
-      <label
-        for="AllTypes"
-        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
-        [ngClass]="{
-          'bg-[#e90f59] text-white': transactionType === 'all',
-          'hover:bg-gray-100': transactionType !== 'all'
-        }"
-        >All</label
-      >
-    </div>
 
-    <div>
-      <input
-        type="radio"
-        id="WithdrawType"
-        [(ngModel)]="transactionType"
-        name="transactionType"
-        value="withdraw"
-        class="sr-only"
-      />
-      <label
-        for="WithdrawType"
-        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
-        [ngClass]="{
-          'bg-[#e90f59] text-white': transactionType === 'withdraw',
-          'hover:bg-gray-100': transactionType !== 'withdraw'
-        }"
-        >Withdraw</label
-      >
-    </div>
 
-    <div>
-      <input
-        type="radio"
-        id="DepositType"
-        [(ngModel)]="transactionType"
-        name="transactionType"
-        value="deposit"
-        class="sr-only"
-      />
-      <label
-        for="DepositType"
-        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
-        [ngClass]="{
-          'bg-[#e90f59] text-white': transactionType === 'deposit',
-          'hover:bg-gray-100': transactionType !== 'deposit'
-        }"
-        >Deposit</label
-      >
-    </div>
-
-    <div>
-      <input
-        type="radio"
-        id="TransferFrom"
-        [(ngModel)]="transactionType"
-        name="transactionType"
-        value="transferFrom"
-        class="sr-only"
-      />
-      <label
-        for="TransferFrom"
-        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
-        [ngClass]="{
-          'bg-[#e90f59] text-white': transactionType === 'transferFrom',
-          'hover:bg-gray-100': transactionType !== 'transferFrom'
-        }"
-        >Transfer To</label
-      >
-    </div>
-
-    <div>
-      <input
-        type="radio"
-        id="TransferTo"
-        [(ngModel)]="transactionType"
-        name="transactionType"
-        value="transferTo"
-        class="sr-only"
-      />
-      <label
-        for="TransferTo"
-        class="cursor-pointer px-4 py-2 rounded border border-gray-300"
-        [ngClass]="{
-          'bg-[#e90f59] text-white': transactionType === 'transferTo',
-          'hover:bg-gray-100': transactionType !== 'transferTo'
-        }"
-        >Transfer From</label
-      >
-    </div>
+    @for (transactionType2 of transactionTypes; track transactionType2) {
+        <div>
+            <input
+              type="radio"
+              id={{transactionType2}}
+              [(ngModel)]="transactionType"
+              name="transactionType"
+              value={{transactionType2}}
+              class="sr-only"
+            />
+            <label
+              for={{transactionType2}}
+              class="cursor-pointer px-4 py-2 rounded border border-gray-300"
+              [ngClass]="{
+                'bg-[#e90f59] text-white': transactionType === transactionType2,
+                'hover:bg-gray-100': transactionType !== transactionType2
+              }"
+              >{{GetRadioString(transactionType2)}}</label
+            >
+          </div>
+    }
   </div>
   <div class="h-7"></div>
-  @if(!enrichedTransactions$) {
+  @if(!transactions) {
   <div class="flex items-center justify-center">
     <div
       class="size-5 h-16 w-16 rounded-full text-lg border border-[#e90f58] border-t-4 border-r-4 text-black animate-spin"
@@ -146,7 +68,7 @@
   } @else {
 
   <div style="display: flex; flex-direction: column; gap: 10px">
-    @for (transaction of enrichedTransactions$ | async; track transaction) {
+    @for (transaction of transactions; track transaction) {
     @if(ShouldShow(transaction)){
     <div
       class="shadow-lg bg-white/5 p-7"

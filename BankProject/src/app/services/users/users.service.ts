@@ -24,14 +24,7 @@ export class UsersService {
     return this.http.get<User[]>(API.PROFILE.ALLUSERS);
   }
 
-  getUserbyID(id: string): Observable<User | undefined> {
-    // let myUser = this.getMyCachedProfile();
-    // console.log('myUser: ' + myUser?._id + ' id: ' + id);
-    // if (myUser && myUser._id == id)
-    //   return new Observable<User | undefined>((observer) =>
-    //     observer.next(myUser)
-    //   );
-    console.log('calling: ' + id);
+  getUserbyID(id: string): Observable<User | undefined> {    
     return this.http.get<User>(`${API.PROFILE.USERINFO}/${id}`);
   }
 

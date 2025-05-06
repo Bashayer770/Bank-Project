@@ -9,31 +9,34 @@
   </div>
   <ul class="nav-links" [class.open]="isMenuOpen()">
     <li>
-      <!-- <a routerLink="/home" class="cursor-pointer">Home</a> -->
-      <button class="cursor-pointer hover:text-[#e90f58]" (click)="goToHome()">
+      <button
+        class="cursor-pointer hover:text-[#e90f58]"
+        [ngClass]="{ 'text-[#e90f58] font-bold': isActive('/home') }"
+        (click)="goToHome()"
+      >
         HOME
       </button>
     </li>
     <li>
-      <!-- <a routerLink="/user" class="cursor-pointer">User</a> -->
-      <button class="cursor-pointer hover:text-[#e90f58]" (click)="goToUsers()">
+      <button
+        class="cursor-pointer hover:text-[#e90f58]"
+        [ngClass]="{ 'text-[#e90f58] font-bold': isActive('/users') }"
+        (click)="goToUsers()"
+      >
         MY BENEFICIARIES
       </button>
     </li>
     <li>
-      <!-- <a routerLink="/transactions" class="cursor-pointer">Transactions</a> -->
       <button
         class="cursor-pointer hover:text-[#e90f58]"
+        [ngClass]="{ 'text-[#e90f58] font-bold': isActive('/transactions') }"
         (click)="goToTransactions()"
       >
         TRANSACTIONS
       </button>
     </li>
-    <!-- <li><a routerLink="/profile" class="cursor-pointer">Profile</a></li> -->
-    <!-- <li>
-      <button class="cursor-pointer" (click)="goToProfile()">Profile</button>
-    </li> -->
-
-    <li><button class="login-button" (click)="logout()">Logout</button></li>
+    <li>
+      <button class="login-button" (click)="logout()">Logout</button>
+    </li>
   </ul>
 </nav>

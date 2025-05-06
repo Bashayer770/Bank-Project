@@ -26,6 +26,7 @@
         type="text"
         maxlength="19"
         [(ngModel)]="card.number"
+        disabled
         placeholder="Card Number"
         class="p-2 mb-3 border-b italic border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
         (input)="formatCardNumber($event)"
@@ -34,6 +35,7 @@
       <input
         [(ngModel)]="card.name"
         placeholder="Cardholder Name"
+        disabled
         class="p-2 mb-3 border-b italic border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
       />
       <input
@@ -41,6 +43,7 @@
         placeholder="MM/YY"
         [(ngModel)]="expiry"
         (input)="formatExpiry($event)"
+        disabled
         maxlength="5"
         class="p-2 mb-3 border-b italic border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
       />
@@ -50,6 +53,7 @@
         maxlength="4"
         placeholder="CVV"
         [(ngModel)]="card.cvv"
+        disabled
         (focus)="onFocusCVV()"
         (blur)="onBlurCVV()"
         class="p-2 mb-3 border-b italic border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"

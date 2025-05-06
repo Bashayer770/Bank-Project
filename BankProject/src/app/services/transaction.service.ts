@@ -30,6 +30,9 @@ export class TransactionService {
   }
 
   transfer(data: TransferRequest): Observable<TransactionResponse> {
+    
+    console.log("transering to: " + JSON.stringify(data))
+    console.log(API.TRANSACTIONS.TRANSFER + data.username)
     return this.http.put<TransactionResponse>(
       API.TRANSACTIONS.TRANSFER + data.username,
       data

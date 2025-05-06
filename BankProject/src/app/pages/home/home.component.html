@@ -93,7 +93,7 @@
       >
         <div class="h-10"></div>
         <p class="text-3xl font-bold mb-4 text-center text-[#200123]">
-          Balance: {{ getSelectedBalance() }}
+          Balance: {{ getSelectedBalance() | number:'1.3-3' }} KWD
         </p>
         <div class="h-10"></div>
 
@@ -131,7 +131,8 @@
         </div>
         <!-- 🔄 Transfer Button SVG -->
         <div class="flex justify-start pl-10 pt-3 flex-row pr-3 mt-5 gap-5">
-          <button class="hover:scale-110 transition bg-black/10 p-1 rounded-xl">
+          <button class="hover:scale-110 transition bg-black/10 p-1 rounded-xl"
+          (click)="showTransferLinkModal()">
             <app-hand-holding-dollar
               class="w-8 h-8 text-[#e90f58]"
             ></app-hand-holding-dollar>
@@ -194,4 +195,12 @@
     (save)="addCard($event)"
     (closeModal)="closeModal()"
   ></app-add-card-modal>
+
+
+
+
+
+  @if(shouldShowTransferLinkModal) {
+    <app-modal (closeModal)="closeTransferLinkModal()"></app-modal>
+  }
 </div>

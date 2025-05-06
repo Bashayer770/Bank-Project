@@ -1,0 +1,65 @@
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+  (click)="close()"
+>
+  <div
+    class="w-[1200px] flex justify-center"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="bg-transparent p-6 rounded w-2/3">
+      <div class="flex justify-end">
+        <app-closesvg class="hover:cursor-pointer" (click)="close()">
+          &times;
+        </app-closesvg>
+      </div>
+      <ng-content>
+        <div class="bg-white rounded-lg p-12 flex flex-col gap-4">
+
+
+    @if(!shouldShowLink){
+
+    <div class="text-2xl font-semibold mb-2 text-center text-[#200123]">Enter the amount you would like to transfer:</div>
+
+    <div class="flex items-center  mb-2">
+        <input
+          type="number"
+          [(ngModel)]="transactionAmount"
+          placeholder="Amount"
+          class="appearance-none w-full bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123]"
+        />
+      </div>
+
+      <div class="flex justify-center">
+          <button
+          class="w-[20%] p-3 bg-[#e90f58] text-white text-base font-semibold shadow transition-transform duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-3xl"
+          (click)="GenerateLink()"
+          [disabled]="this.transactionAmount == null"
+          >
+          Confirm
+        </button>
+    </div>
+    }
+    @else{        
+        <div class="flex items-center justify-center mb-2">
+            <input            
+            value={{link}}
+            disabled
+            class="appearance-none w-[90%] bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-l-3xl text-[#200123]/70"
+            />
+            <button class="w-[10%] bg-[#e90f58] p-2 font-semibold text-xl border rounded-r-3xl text-white"
+            (click)="CopyToClipboard()">
+                <app-copysvg></app-copysvg>
+            </button>
+        </div>
+    }
+ 
+</div>
+</ng-content>
+    </div>
+  </div>
+</div>
+<div
+*ngIf="toastMessage()"
+class="fixed bottom-64 left-1/2 transform -translate-x-1/2 bg-[#e90f58] text-white px-4 py-2 rounded font-semibold shadow-lg z-50 animate-fade-in"
+>{{toastMessage()}}</div>
+

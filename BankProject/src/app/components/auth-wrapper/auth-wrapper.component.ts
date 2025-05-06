@@ -130,11 +130,6 @@ export class AuthWrapperComponent {
           break;
         }
       }
-      // if (user) {
-      //   sessionStorage.setItem('userProfile', JSON.stringify(user));
-      // } else {
-      //   console.error('User not found');
-      // }
     });
   }
 }

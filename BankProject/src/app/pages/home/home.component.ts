@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaymentCardComponent } from '../../components/payment-card/payment-card.component';
 import { AddCardModalComponent } from '../../components/add-card-modal/add-card-modal.component';
@@ -13,6 +13,7 @@ import { catchError, of } from 'rxjs';
 import { TransactionResponse } from '../users/users.component';
 import { CardTransferBoldComponent } from '../../svg/card-transfer-bold/card-transfer-bold.component';
 import { HandHoldingDollarComponent } from '../../svg/hand-holding-dollar/hand-holding-dollar.component';
+import { ModalComponent } from "../../components/modal/modal.component";
 
 @Component({
   selector: 'app-home',
@@ -25,11 +26,14 @@ import { HandHoldingDollarComponent } from '../../svg/hand-holding-dollar/hand-h
     CardTransferBoldComponent,
     HandHoldingDollarComponent,
     HandHoldingDollarComponent,
-  ],
+    ModalComponent,    
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
+
+
   currentUser: User | null = null;
   constructor(
     private router: Router,
@@ -47,6 +51,8 @@ export class HomeComponent implements OnInit {
   transferAmount = 0;
   showTransferSection = signal(false);
   transferTargetIndex: number | null = null;
+  public shouldShowTransferLinkModal = false;
+
 
   ngOnInit(): void {
     this.userService.getMyProfile().subscribe((userData: User) => {
@@ -85,6 +91,17 @@ export class HomeComponent implements OnInit {
     this.showTransferSection.update((v) => !v);
   }
 
+
+
+  showTransferLinkModal() {
+    console.log("clickedddd")
+    this.shouldShowTransferLinkModal = true;
+  }
+
+  closeTransferLinkModal() {
+    this.shouldShowTransferLinkModal = false;
+    }
+
   showModal() {
     return this.showAddCardModal();
   }
@@ -113,7 +130,7 @@ export class HomeComponent implements OnInit {
 
   getSelectedBalance(): string {
     const index = this.selectedCardIndex();
-    return index !== null ? `$${this.cards()[index].balance}` : '$0.00';
+    return index !== null ? `${this.cards()[index].balance}` : '0';
   }
 
   selectCard(index: number) {
@@ -206,6 +223,7 @@ export class HomeComponent implements OnInit {
 
   logout() {
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userProfile');
     this.router.navigate(['/auth']);
   }
   toPaymentCard(user: UserWithCardProps): PaymentCard {

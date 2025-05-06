@@ -26,7 +26,13 @@ export interface TransactionResponse {
   styleUrls: ['./users.component.css'],
 })
 export class UsersListComponent implements OnInit, OnDestroy {
-  users: User[] = [];
+
+
+  testprint2(arg0: File) {
+console.log(arg0)
+  }
+
+users: User[] = [];
   filteredUsers: User[] = [];
   loading: boolean = true;
   error: string | null = null;

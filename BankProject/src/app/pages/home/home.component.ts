@@ -13,7 +13,7 @@ import { catchError, of } from 'rxjs';
 import { TransactionResponse } from '../users/users.component';
 import { CardTransferBoldComponent } from '../../svg/card-transfer-bold/card-transfer-bold.component';
 import { HandHoldingDollarComponent } from '../../svg/hand-holding-dollar/hand-holding-dollar.component';
-import { ModalComponent } from "../../components/modal/modal.component";
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-home',
@@ -26,14 +26,12 @@ import { ModalComponent } from "../../components/modal/modal.component";
     CardTransferBoldComponent,
     HandHoldingDollarComponent,
     HandHoldingDollarComponent,
-    ModalComponent,    
-],
+    ModalComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-
-
   currentUser: User | null = null;
   constructor(
     private router: Router,
@@ -52,7 +50,6 @@ export class HomeComponent implements OnInit {
   showTransferSection = signal(false);
   transferTargetIndex: number | null = null;
   public shouldShowTransferLinkModal = false;
-
 
   ngOnInit(): void {
     this.userService.getMyProfile().subscribe((userData: User) => {
@@ -91,16 +88,14 @@ export class HomeComponent implements OnInit {
     this.showTransferSection.update((v) => !v);
   }
 
-
-
   showTransferLinkModal() {
-    console.log("clickedddd")
+    console.log('clickedddd');
     this.shouldShowTransferLinkModal = true;
   }
 
   closeTransferLinkModal() {
     this.shouldShowTransferLinkModal = false;
-    }
+  }
 
   showModal() {
     return this.showAddCardModal();
@@ -236,7 +231,7 @@ export class HomeComponent implements OnInit {
       type: user.card?.type ?? 'Visa',
       background:
         user.card?.background ??
-        'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
+        'https://images.pexels.com/photos/6402424/pexels-photo-6402424.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
       balance: user.balance ?? 0,
     };
   }

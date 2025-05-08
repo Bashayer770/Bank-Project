@@ -1,15 +1,15 @@
 <div
   style="display: flex; flex-direction: column"
-  class="bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] h-screen overflow-auto"
+  class="bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] h-screen overflow-auto p-10"
 >
   <div
-    style="margin-top: 6rem"
+    style="margin-top: 4rem"
     class="flex justify-center pb-7 text-3xl font-semibold text-[#e90f58]"
   >
     TRANSACTIONS
   </div>
 
-  <div class="flex flex-row justify-center gap-2">
+  <div class="flex flex-row justify-center gap-2 pb-3">
     <div class="text-[#e90f58]">From</div>
     <input
       type="date"
@@ -34,28 +34,26 @@
       margin-bottom: 20px;
     "
   >
-
-
     @for (transactionType2 of transactionTypes; track transactionType2) {
-        <div>
-            <input
-              type="radio"
-              id={{transactionType2}}
-              [(ngModel)]="transactionType"
-              name="transactionType"
-              value={{transactionType2}}
-              class="sr-only"
-            />
-            <label
-              for={{transactionType2}}
-              class="cursor-pointer px-4 py-2 rounded border border-gray-300"
-              [ngClass]="{
-                'bg-[#e90f59] text-white': transactionType === transactionType2,
-                'hover:bg-gray-100': transactionType !== transactionType2
-              }"
-              >{{GetRadioString(transactionType2)}}</label
-            >
-          </div>
+    <div>
+      <input
+        type="radio"
+        id="{{ transactionType2 }}"
+        [(ngModel)]="transactionType"
+        name="transactionType"
+        value="{{ transactionType2 }}"
+        class="sr-only"
+      />
+      <label
+        for="{{ transactionType2 }}"
+        class="cursor-pointer px-4 py-2 rounded-3xl border border-gray-300"
+        [ngClass]="{
+          'bg-[#e90f59] text-white': transactionType === transactionType2,
+          'hover:bg-gray-100': transactionType !== transactionType2
+        }"
+        >{{ GetRadioString(transactionType2) }}</label
+      >
+    </div>
     }
   </div>
   <div class="h-7"></div>
@@ -71,7 +69,7 @@
     @for (transaction of transactions; track transaction) {
     @if(ShouldShow(transaction)){
     <div
-      class="shadow-lg bg-white/5 p-7"
+      class="shadow-lg bg-white/70 p-7"
       style="
         color: #200123;
         margin: 0px 25%;

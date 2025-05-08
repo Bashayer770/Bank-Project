@@ -1,9 +1,9 @@
 <div
-  class="p-5 bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] min-h-screen text-white"
+  class="p-5 bg-gradient-to-tl from-[#2b2b2c] to-[#2b2b2c] min-h-screen text-white"
 >
   <h2
-    style="margin-top: 6rem"
-    class="flex justify-center pb-7 text-3xl font-semibold text-[#e90f58]"
+    style="margin-top: 5rem"
+    class="flex justify-center pb-4 text-3xl font-semibold text-[#ff411f]"
   >
     MY BENEFICIARIES
   </h2>
@@ -13,20 +13,21 @@
       type="text"
       [(ngModel)]="searchTerm"
       (input)="applyFilter()"
-      placeholder="Search beneficiaries by username..."
-      class="w-[40%] bg-[#200123]/5 p-2 text-center italic text-xl border rounded-3xl text-[#200123] mt-5"
+      placeholder="Search by username..."
+      class="w-[50%] bg-[#545353] p-3 text-center italic text-base rounded-3xl text-[#ffffff]"
     />
   </div>
 
   <div *ngIf="loading" class="flex items-center justify-center">
     <div
-      class="size-5 h-16 w-16 rounded-full text-lg border border-[#e90f58] border-t-4 border-r-4 text-black animate-spin"
+      class="size-5 h-16 w-16 rounded-full text-lg border border-[#ff411f] border-t-4 border-r-4 text-black animate-spin"
     ></div>
   </div>
-  <div className="flex flex-col items-center gap-y-4">
+
+  <div class="flex flex-col items-center gap-y-6">
     <div
       *ngIf="error"
-      class="text-center p-4 mb-5 rounded-lg text-lg bg-[#fbe9e7] text-[#c62828] border border-[#ffccbc]"
+      class="text-center p-4 mb-5 rounded-lg text-lg text-[#b04825]"
     >
       {{ error }}
     </div>
@@ -37,17 +38,19 @@
     >
       No users found matching your search.
     </div>
-    <div class="h-8"></div>
+
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-24 justify-items-center"
+      class="grid gap-8 w-screen justify-center overflow-scroll"
+      style="height: 70vh"
     >
       <ng-container *ngFor="let user of filteredUsers">
-        <div class="bg-white rounded-2xl w-[400px] h-[290px] shadow-lg">
+        <div class="flex w-full max-w-5xl bg-[#1b1b1b] rounded-2xl shadow-md">
+          <!-- Left: User Card -->
           <div
-            class="bg-[#200123] relative w-[400px] backdrop-blur-sm p-6 rounded-2xl shadow-md flex flex-row items-center gap-4"
+            class="flex-1 flex flex-col items-center justify-center gap-4 p-6"
           >
             <div
-              class="w-20 h-20 absolute top-14 rounded-full overflow-hidden border-4 border-[#200123]"
+              class="w-20 h-20 rounded-full overflow-hidden border-4 bg-[#2b2b2c] border-[#2b2b2c]"
             >
               @if(false){
               <img
@@ -57,7 +60,7 @@
               />
               } @else {
               <div
-                class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-2xl font-bold"
+                class="w-full h-full bg-black/70 flex items-center justify-center text-[#ff411f] text-2xl font-bold"
               >
                 {{
                   user.username ? user.username.charAt(0).toUpperCase() : "?"
@@ -65,28 +68,54 @@
               </div>
               }
             </div>
-
-            <div class="text-center pl-24">
-              <h3 class="text-lg text-white font-semibold">
-                {{ user.username }}
-              </h3>
-              <p class="text-sm text-white font-semibold">
-                Balance:
-                {{ user.balance | currency : "KWD" : "symbol" : "1.3-3" }}
-              </p>
-            </div>
+            <h3 class="text-lg font-semibold">{{ user.username }}</h3>
           </div>
-          <div class="flex flex-col items-center gap-3 w-full mt-10">
+
+          <!-- Right: Actions -->
+          <div class="flex-[2] p-6 flex flex-col justify-center gap-4">
+            <div class="flex items-center gap-6">
+              <!-- Icon 1 -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="32"
+                height="32"
+                fill="currentColor"
+                class="text-[#ff411f]"
+              >
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  d="M2 7h18m-4-5l5 5l-5 5m6 5H4m4-5l-5 5l5 5"
+                />
+              </svg>
+
+              <!-- Icon 2 -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="32"
+                height="32"
+                fill="currentColor"
+                class="text-[#ff411f]"
+              >
+                <path
+                  d="M20 2H10a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3m1 10a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1Zm-3.5-4a1.5 1.5 0 0 0-1 .39a1.5 1.5 0 1 0 0 2.22a1.5 1.5 0 1 0 1-2.61M16 17a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4h1a1 1 0 0 0 0-2H3v-1a1 1 0 0 1 1-1a1 1 0 0 0 0-2a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1a1 1 0 0 0-1-1M6 18h1a1 1 0 0 0 0-2H6a1 1 0 0 0 0 2"
+                />
+              </svg>
+            </div>
+
             <input
               type="number"
               [(ngModel)]="transferAmounts[user.username]"
               placeholder="Amount"
-              class="w-[90%] bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123] mt-5"
+              class="appearance-none w-full bg-[#323232] p-2 text-center font-semibold text-xl rounded-3xl text-[#ffffff]"
               min="0"
             />
 
             <button
-              class="w-[90%] p-2 bg-[#e90f58] text-white text-base font-semibold shadow transition-transform duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-3xl"
+              class="appearance-none w-full bg-[#ff411f] disabled:bg-[#323232] disabled:text-white/20 p-2 text-center font-semibold text-xl rounded-3xl text-[#ffffff]"
               (click)="initiateTransfer(user)"
               [disabled]="
                 !transferAmounts[user.username] ||

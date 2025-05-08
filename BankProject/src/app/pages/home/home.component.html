@@ -1,16 +1,16 @@
 <div
-  class="relative w-screen h-screen bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] overflow-hidden"
+  class="relative w-screen h-screen bg-gradient-to-tl from-[#000000] to-[#2b2b2c] overflow-hidden"
 >
   <!-- WELCOME SECTION (hidden after card is selected) -->
   <div
     *ngIf="selectedCardIndex() === null"
     class="absolute top-10 left-28 z-50 mt-[300px]"
   >
-    <h1 class="text-8xl font-extrabold text-[#200123]">
+    <h1 class="text-8xl font-extrabold text-[#ffffff]">
       WELCOME, {{ user?.username?.toUpperCase() }}
     </h1>
     <div class="flex justify-end items-center gap-4 mt-4">
-      <span class="text-xl text-[#200123]/90 font-medium">
+      <span class="text-xl text-white font-medium">
         Start your transactions
       </span>
 
@@ -19,7 +19,7 @@
         viewBox="0 0 14 14"
         width="48"
         height="48"
-        class="text-[#e90f58]"
+        class="text-[#ff411f]"
       >
         <g
           fill="none"
@@ -36,7 +36,7 @@
   <!-- ADD CARD BUTTON -->
 
   <button
-    class="absolute bottom-6 right-80 px-6 py-2 bg-[#e90f58] text-white font-semibold rounded-3xl shadow-lg transition-transform duration-300 hover:scale-105"
+    class="absolute bottom-6 right-80 px-6 py-2 bg-[#ff411f] text-white font-semibold rounded-3xl shadow-lg transition-transform duration-300 hover:scale-105"
     (click)="openModal()"
   >
     + Add Digital Card
@@ -63,10 +63,10 @@
 
   <!-- ✅ BLACK SIDEBAR BACKGROUND (BELOW CARDS) -->
   <div
-    class="absolute top-0 right-0 w-[16%] h-[93.5%] bg-[#200123] rounded-l-3xl mt-[4%] z-0"
+    class="absolute top-0 right-0 w-[16%] h-[93.5%] bg-gradient-to-tl from-[#000000] to-[#2b2b2c] rounded-l-3xl mt-[4%] z-0"
   >
     <!-- <button
-      class="absolute top-6 left-11 px-6 py-2 bg-[#e90f58] text-white font-semibold rounded-3xl shadow-lg transition-transform duration-300 hover:scale-105"
+      class="absolute top-6 left-11 px-6 py-2 bg-[#ff411f] text-white font-semibold rounded-3xl shadow-lg transition-transform duration-300 hover:scale-105"
       (click)="openModal()"
     >
       + Create Digital Card
@@ -89,11 +89,11 @@
 
       <!-- BALANCE AND ACTIONS CONTAINER -->
       <div
-        class="fixed left-1/2 top-[280px] mt-7 transform -translate-x-1/2 w-[30%] h-[65%] p-6 rounded-xl bg-white/40 shadow-xl text-center z-10 transition-all duration-700 ease-out"
+        class="fixed left-1/2 top-[280px] mt-7 transform -translate-x-1/2 w-[30%] bg-gradient-to-tl from-[#262626] to-[#2b2b2c] h-[65%] p-6 rounded-xl bg- shadow-xl text-center z-10 transition-all duration-700 ease-out"
       >
         <div class="h-10"></div>
-        <p class="text-3xl font-bold mb-4 text-center text-[#200123]">
-          Balance: {{ getSelectedBalance() | number:'1.3-3' }} KWD
+        <p class="text-3xl font-bold mb-4 text-center text-[#ffffff]">
+          Balance: {{ getSelectedBalance() | number : "1.3-3" }} KWD
         </p>
         <div class="h-10"></div>
 
@@ -102,14 +102,14 @@
             type="number"
             [(ngModel)]="transactionAmount"
             placeholder="Amount"
-            class="appearance-none w-full bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123]"
+            class="appearance-none w-full bg-[#323232] p-2 text-center font-semibold text-xl rounded-3xl text-[#ffffff]"
           />
         </div>
 
         <div class="h-8"></div>
         <div class="flex justify-center gap-14">
           <button
-            class="w-[30%] py-2 bg-[#200123] text-white font-semibold shadow-md rounded-3xl transition-transform duration-300 hover:scale-105"
+            class="w-[30%] py-2 bg-[#000000] text-white font-semibold shadow-md cursor-pointer rounded-3xl transition-transform duration-300 hover:scale-105"
             [disabled]="!transactionAmount"
             (click)="
               transactionAmount !== null &&
@@ -119,7 +119,7 @@
             Deposit
           </button>
           <button
-            class="w-[30%] py-2 bg-[#e90f58] shadow-md text-white font-semibold rounded-3xl transition-transform duration-300 hover:scale-105"
+            class="w-[30%] py-2 bg-[#ff411f] shadow-md text-white font-semibold cursor-pointer rounded-3xl transition-transform duration-300 hover:scale-105"
             [disabled]="!transactionAmount"
             (click)="
               transactionAmount !== null &&
@@ -131,27 +131,31 @@
         </div>
         <!-- 🔄 Transfer Button SVG -->
         <div class="flex justify-start pl-10 pt-3 flex-row pr-3 mt-5 gap-5">
-          <button class="hover:scale-110 transition bg-black/10 p-1 rounded-xl"
-          (click)="showTransferLinkModal()">
+          <button
+            class="hover:scale-110 transition bg-black/10 p-1 rounded-xl"
+            (click)="showTransferLinkModal()"
+          >
             <app-hand-holding-dollar
-              class="w-8 h-8 text-[#e90f58]"
+              class="w-8 h-8 text-white/50 hover:text-[#ff411f]"
             ></app-hand-holding-dollar>
           </button>
           <button
             (click)="toggleTransferSection()"
             class="hover:scale-110 transition bg-black/10 p-1 rounded-xl"
           >
-            <app-card-transfer-bold class="w-8 h-8 text-[#e90f58]" />
+            <app-card-transfer-bold
+              class="w-8 h-8 text-white/50 hover:text-[#ff411f]"
+            />
           </button>
         </div>
         <div *ngIf="showTransferSection()" class="mt-6">
-          <h3 class="text-lg font-semibold text-[#200123] mb-2">
+          <h3 class="text-lg font-semibold text-[#ffffff] mb-2">
             Transfer To:
           </h3>
 
           <select
             [(ngModel)]="transferTargetIndex"
-            class="w-full bg-[#200123]/5 p-3 border rounded-3xl text-[#200123] mb-5"
+            class="w-full bg-[#323232] p-3 rounded-3xl text-[#ffffff] mb-5"
           >
             <option
               *ngFor="let card of cards(); let i = index"
@@ -166,11 +170,11 @@
             type="number"
             [(ngModel)]="transferAmount"
             placeholder="Amount"
-            class="w-full bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123] mb-5"
+            class="w-full bg-[#323232] p-2 text-center font-semibold text-xl rounded-3xl text-[#ffffff] mb-5"
           />
 
           <button
-            class="w-full p-3 bg-[#200123] text-white font-semibold shadow-md rounded-3xl transition-transform duration-300 hover:scale-105"
+            class="w-full p-3 bg-[#191a19] text-white font-semibold shadow-md rounded-3xl transition-transform duration-300 hover:scale-105"
             (click)="transfer()"
           >
             Confirm Transfer
@@ -196,11 +200,7 @@
     (closeModal)="closeModal()"
   ></app-add-card-modal>
 
-
-
-
-
   @if(shouldShowTransferLinkModal) {
-    <app-modal (closeModal)="closeTransferLinkModal()"></app-modal>
+  <app-modal (closeModal)="closeTransferLinkModal()"></app-modal>
   }
 </div>

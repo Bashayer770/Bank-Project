@@ -1,6 +1,6 @@
-<nav>
+<nav class="bg-gradient-to-tl from-[#000000] to-[#2b2b2c]">
   <div class="logo">
-    <span class="text-[#df2859]">BAA</span>
+    <span class="text-[#ff411f]">BAA</span>
   </div>
   <div class="hamburger" (click)="toggleMenu()" [class.toggle]="isMenuOpen()">
     <div class="line1"></div>
@@ -10,8 +10,8 @@
   <ul class="nav-links" [class.open]="isMenuOpen()">
     <li>
       <button
-        class="cursor-pointer hover:text-[#e90f58]"
-        [ngClass]="{ 'text-[#e90f58] font-bold': isActive('/home') }"
+        class="cursor-pointer hover:text-[#ff411f]"
+        [ngClass]="{ 'text-[#ff411f] font-bold': isActive('/home') }"
         (click)="goToHome()"
       >
         HOME
@@ -19,8 +19,8 @@
     </li>
     <li>
       <button
-        class="cursor-pointer hover:text-[#e90f58]"
-        [ngClass]="{ 'text-[#e90f58] font-bold': isActive('/users') }"
+        class="cursor-pointer hover:text-[#ff411f]"
+        [ngClass]="{ 'text-[#ff411f] font-bold': isActive('/users') }"
         (click)="goToUsers()"
       >
         MY BENEFICIARIES
@@ -28,8 +28,8 @@
     </li>
     <li>
       <button
-        class="cursor-pointer hover:text-[#e90f58]"
-        [ngClass]="{ 'text-[#e90f58] font-bold': isActive('/transactions') }"
+        class="cursor-pointer hover:text-[#ff411f]"
+        [ngClass]="{ 'text-[#ff411f] font-bold': isActive('/transactions') }"
         (click)="goToTransactions()"
       >
         TRANSACTIONS

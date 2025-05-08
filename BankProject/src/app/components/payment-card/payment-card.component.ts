@@ -14,7 +14,7 @@ export class PaymentCardComponent {
   @Input() background: string = '';
 
   defaultBackground: string =
-    'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg';
+    'https://images.pexels.com/photos/6402424/pexels-photo-6402424.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
 
   showSensitive = false;
   private hideTimeout: any;

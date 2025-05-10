@@ -40,7 +40,7 @@ export class TransferLinkComponent {
 
         setTimeout(() => {
           this.router.navigate(['/home']);
-        }, 1500); // 1.5 seconds delay so the toast can appear
+        }, 1500);
       });
   }
 

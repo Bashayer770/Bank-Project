@@ -42,7 +42,13 @@ export class TransactionsComponent {
       this.transactionService
         .getMyTransactions()
         .subscribe((response: Transaction[]) => {
-          this.transactions = response;
+          this.transactions = response
+            .slice()
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            );
           this.transactionType = 'all';
         });
     });

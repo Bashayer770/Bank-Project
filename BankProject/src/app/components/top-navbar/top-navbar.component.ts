@@ -34,11 +34,9 @@ export class TopNavbarComponent {
   }
 
   goToHome() {
-    console.log('home');
     this.router.navigate(['/home']);
   }
   goToProfile() {
-    console.log('home2');
     this.router.navigate(['/profile']);
   }
   goToUsers() {
@@ -46,7 +44,6 @@ export class TopNavbarComponent {
   }
   goToTransactions() {
     this.router.navigate(['/transactions']);
-    console.log(this.router.url);
   }
 
   logout() {

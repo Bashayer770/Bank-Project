@@ -78,7 +78,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       .subscribe((updatedUser: User | null) => {
         if (updatedUser) {
           this.user = updatedUser;
-          console.log('Profile image updated successfully!');
         }
         this.loading = false;
       });

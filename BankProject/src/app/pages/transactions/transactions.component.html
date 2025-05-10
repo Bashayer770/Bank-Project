@@ -34,28 +34,26 @@
       margin-bottom: 20px;
     "
   >
-
-
     @for (transactionType2 of transactionTypes; track transactionType2) {
-        <div>
-            <input
-              type="radio"
-              id={{transactionType2}}
-              [(ngModel)]="transactionType"
-              name="transactionType"
-              value={{transactionType2}}
-              class="sr-only"
-            />
-            <label
-              for={{transactionType2}}
-              class="cursor-pointer px-4 py-2 rounded border border-gray-300"
-              [ngClass]="{
-                'bg-[#e90f59] text-white': transactionType === transactionType2,
-                'hover:bg-gray-100': transactionType !== transactionType2
-              }"
-              >{{GetRadioString(transactionType2)}}</label
-            >
-          </div>
+    <div>
+      <input
+        type="radio"
+        id="{{ transactionType2 }}"
+        [(ngModel)]="transactionType"
+        name="transactionType"
+        value="{{ transactionType2 }}"
+        class="sr-only"
+      />
+      <label
+        for="{{ transactionType2 }}"
+        class="cursor-pointer px-4 py-2 rounded-full border border-gray-300"
+        [ngClass]="{
+          'bg-[#e90f59] text-white': transactionType === transactionType2,
+          'hover:bg-gray-100': transactionType !== transactionType2
+        }"
+        >{{ GetRadioString(transactionType2) }}</label
+      >
+    </div>
     }
   </div>
   <div class="h-7"></div>

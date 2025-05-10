@@ -1,6 +1,9 @@
-@if(toastMessage())
-{
-    <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in">
-        {{ toastMessage() }}
-    </div>
+@if(toastMessage()) {
+<div class="flex flex-row justify-center items-center">
+  <div
+    class="w-36 h-20 transform bg-black/30 text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in"
+  >
+    {{ toastMessage() }}
+  </div>
+</div>
 }

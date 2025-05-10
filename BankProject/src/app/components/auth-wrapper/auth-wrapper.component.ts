@@ -75,7 +75,7 @@ export class AuthWrapperComponent {
       })
       .subscribe({
         next: (res) => {
-          console.log('register Payload:', this.registerData);
+          // console.log('register Payload:', this.registerData);
           sessionStorage.setItem('token', res.token);
           // this.router.navigate(['/home']);
           this.exitAnimation = true;
@@ -103,7 +103,7 @@ export class AuthWrapperComponent {
 
     this.authService.login(this.loginData).subscribe({
       next: (res) => {
-        console.log('Login Payload:', this.loginData);
+        // console.log('Login Payload:', this.loginData);
         sessionStorage.setItem('token', res.token);
         this.setUserProfileSession();
         // this.router.navigate(['/home']);
@@ -121,12 +121,12 @@ export class AuthWrapperComponent {
 
   setUserProfileSession() {
     this.userService.getAllUsers().subscribe((users: User[]) => {
-      console.log('SEARCHING');
+      // console.log('SEARCHING');
 
       for (const user of users) {
         if (user.username === this.loginData.username) {
           sessionStorage.setItem('userProfile', JSON.stringify(user));
-          console.log('FOUND USER Profile:', user);
+          // console.log('FOUND USER Profile:', user);
           break;
         }
       }

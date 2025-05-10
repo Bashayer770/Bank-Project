@@ -16,22 +16,28 @@ export class TransactionsComponent {
   firstDate: string = new Date(2024, 0, 2).toISOString().split('T')[0];
   todaysDate: string = new Date().toISOString().split('T')[0];
   allUsers!: User[];
-  
-  transactionTypes: string[] = [ "all",'withdraw', "deposit", "transferFrom", "transferTo"]
+
+  transactionTypes: string[] = [
+    'all',
+    'withdraw',
+    'deposit',
+    'transferFrom',
+    'transferTo',
+  ];
 
   constructor(
     private transactionService: TransactionService,
     private userService: UsersService
   ) {
-    this.userService.getAllUsers().subscribe(
-      response=>{this.allUsers = response    
+    this.userService.getAllUsers().subscribe((response) => {
+      this.allUsers = response;
       this.transactionService
-      .getMyTransactions()
-      .subscribe((response: Transaction[]) => {
-        this.transactions = response;
-        this.transactionType = 'all';
-      })
-    })
+        .getMyTransactions()
+        .subscribe((response: Transaction[]) => {
+          this.transactions = response;
+          this.transactionType = 'all';
+        });
+    });
   }
 
   transactionType: string = '';
@@ -69,9 +75,8 @@ export class TransactionsComponent {
 
   getType(transaction: Transaction) {
     let myUserId = this.getMyUser();
-    
-    if (transaction.type != 'transfer') 
-      return transaction.type;
+
+    if (transaction.type != 'transfer') return transaction.type;
 
     if (transaction.from == myUserId)
       return 'Transfer to ' + this.getUserName(transaction.to);
@@ -79,19 +84,17 @@ export class TransactionsComponent {
     if (transaction.to == myUserId)
       return 'Transfer from ' + this.getUserName(transaction.from);
 
-    return ''
+    return '';
   }
 
   getUserName(id: string): string {
     let user = this.getUser(id);
-    console.log(user)
-    if(user) return user.username
-    else return 'Unknown'
+    if (user) return user.username;
+    else return 'Unknown';
   }
 
-
   getUser(id: string): User | undefined {
-    return this.allUsers.find(x=>x._id == id)
+    return this.allUsers.find((x) => x._id == id);
   }
 
   getMyUser(): string {
@@ -100,15 +103,20 @@ export class TransactionsComponent {
     else return 'Unknown';
   }
 
-  GetRadioString(name: string):string{ //This should be a pipe
-    switch(name){
-      case 'all': return 'All'
-      case 'deposit': return 'Deposit'
-      case 'withdraw': return 'Withdraw'
-      case 'transferFrom': return 'Transfer From'
-      case 'transferTo': return 'Transfer To'
+  GetRadioString(name: string): string {
+    //This should be a pipe
+    switch (name) {
+      case 'all':
+        return 'All';
+      case 'deposit':
+        return 'Deposit';
+      case 'withdraw':
+        return 'Withdraw';
+      case 'transferFrom':
+        return 'Transfer From';
+      case 'transferTo':
+        return 'Transfer To';
     }
-    return ''
+    return '';
   }
-
 }

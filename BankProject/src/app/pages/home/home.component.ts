@@ -157,7 +157,7 @@ export class HomeComponent implements OnInit {
             this.cards.update((cards) => {
               const updated = [...cards];
               if (updated[index].balance >= amount) {
-                updated[index].balance -= amount;
+                updated[index].balance += amount;
                 this.showToast(`Deposit $${amount}`);
               } else {
                 this.showToast('Insufficient funds');

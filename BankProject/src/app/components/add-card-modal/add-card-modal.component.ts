@@ -20,11 +20,11 @@ export class AddCardModalComponent {
   expiry: string = '';
 
   skins = [
-    'https://st4.depositphotos.com/13349494/21086/i/450/depositphotos_210865964-stock-photo-red-bokeh-black-background-celebration.jpg',
-    'https://images.freeimages.com/images/large-previews/a43/textured-gradient-background-0410-5697130.jpg?fmt=webp&w=500',
-    'https://w0.peakpx.com/wallpaper/957/892/HD-wallpaper-blue-gradient-2021-abstract-art-design-ultra-poster.jpg',
-    'https://i0.wp.com/backgroundabstract.com/wp-content/uploads/edd/2021/09/gradient-blue-pink-abstract-art-wallpaper-preview-e1656162284223.jpg',
-    'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
+    'https://static.vecteezy.com/system/resources/thumbnails/038/199/591/small_2x/orange-background-design-with-gradient-wavy-fluid-shapes-abstract-wallpaper-suitable-for-businesses-selling-banners-ads-events-templates-pages-and-others-vector.jpg',
+    'https://wallpapers.com/images/hd/black-and-orange-7680-x-4320-wallpaper-uv67y369elj4cgpb.jpg',
+    'https://t3.ftcdn.net/jpg/06/77/22/98/360_F_677229846_W5DmCWzuoSe9F0cOwUYqt4bcU9WmnZqi.jpg',
+    'https://c4.wallpaperflare.com/wallpaper/667/804/30/abstract-pattern-black-orange-design-wallpaper-thumb.jpg',
+    'https://img.freepik.com/premium-vector/abstract-mesh-gradation-orange-color-background-template-with-fluid-style-vector_490655-998.jpg?semt=ais_hybrid&w=740',
     'https://media.istockphoto.com/id/2165041511/vector/abstract-black-and-gray-color-gradient-background.jpg?s=612x612&w=0&k=20&c=gqSsRRunIq39-mi5hm85tAJf93D-ds6D9mzDEm7kBp4=',
   ];
 

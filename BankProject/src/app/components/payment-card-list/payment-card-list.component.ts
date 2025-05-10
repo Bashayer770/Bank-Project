@@ -21,7 +21,7 @@ export class PaymentCardListComponent {
       cvv: '123',
       type: 'visa',
       background:
-        'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
+        'https://images.pexels.com/photos/6402424/pexels-photo-6402424.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
       balance: 1000,
     },
   ]);
@@ -71,7 +71,7 @@ export class PaymentCardListComponent {
       cvv: Math.floor(100 + Math.random() * 900).toString(),
       type,
       background:
-        'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
+        'https://images.pexels.com/photos/6402424/pexels-photo-6402424.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
       balance: 0,
     };
 

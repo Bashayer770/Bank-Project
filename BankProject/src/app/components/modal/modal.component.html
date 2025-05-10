@@ -1,5 +1,5 @@
 <div
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
   (click)="close()"
 >
   <div
@@ -13,53 +13,56 @@
         </app-closesvg>
       </div>
       <ng-content>
-        <div class="bg-white rounded-lg p-12 flex flex-col gap-4">
+        <div
+          class="bg-gradient-to-tl from-[#262626] to-[#2b2b2c] rounded-lg p-12 flex flex-col gap-4"
+        >
+          @if(!shouldShowLink){
 
+          <div class="text-2xl font-semibold mb-2 text-center text-[#ffff]">
+            Enter the amount you would like to transfer:
+          </div>
 
-    @if(!shouldShowLink){
-
-    <div class="text-2xl font-semibold mb-2 text-center text-[#200123]">Enter the amount you would like to transfer:</div>
-
-    <div class="flex items-center  mb-2">
-        <input
-          type="number"
-          [(ngModel)]="transactionAmount"
-          placeholder="Amount"
-          class="appearance-none w-full bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-3xl text-[#200123]"
-        />
-      </div>
-
-      <div class="flex justify-center">
-          <button
-          class="w-[20%] p-3 bg-[#e90f58] text-white text-base font-semibold shadow transition-transform duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-3xl"
-          (click)="GenerateLink()"
-          [disabled]="this.transactionAmount == null"
-          >
-          Confirm
-        </button>
-    </div>
-    }
-    @else{        
-        <div class="flex items-center justify-center mb-2">
-            <input            
-            value={{link}}
-            disabled
-            class="appearance-none w-[90%] bg-[#200123]/5 p-2 text-center font-semibold text-xl border rounded-l-3xl text-[#200123]/70"
+          <div class="flex items-center mb-2">
+            <input
+              type="number"
+              [(ngModel)]="transactionAmount"
+              placeholder="Amount"
+              class="appearance-none w-full bg-[#323232] p-2 text-center font-semibold text-xl rounded-3xl text-[#ffffff]"
             />
-            <button class="w-[10%] bg-[#e90f58] p-2 font-semibold text-xl border rounded-r-3xl text-white"
-            (click)="CopyToClipboard()">
-                <app-copysvg></app-copysvg>
+          </div>
+
+          <div class="flex justify-center">
+            <button
+              class="w-[20%] p-3 bg-[#ff411f] text-white text-base font-semibold shadow transition-transform duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-3xl"
+              (click)="GenerateLink()"
+              [disabled]="this.transactionAmount == null"
+            >
+              Confirm
             </button>
+          </div>
+          } @else{
+          <div class="flex items-center justify-center mb-2">
+            <input
+              value="{{ link }}"
+              disabled
+              class="appearance-none w-[90%] bg-[#323232] p-2 text-center font-semibold text-xl rounded-l-3xl text-[#ffff]"
+            />
+            <button
+              class="w-[10%] bg-[#ff411f] p-2 font-semibold text-xl rounded-r-3xl text-white"
+              (click)="CopyToClipboard()"
+            >
+              <app-copysvg></app-copysvg>
+            </button>
+          </div>
+          }
         </div>
-    }
- 
-</div>
-</ng-content>
+      </ng-content>
     </div>
   </div>
 </div>
 <div
-*ngIf="toastMessage()"
-class="fixed bottom-64 left-1/2 transform -translate-x-1/2 bg-[#e90f58] text-white px-4 py-2 rounded font-semibold shadow-lg z-50 animate-fade-in"
->{{toastMessage()}}</div>
-
+  *ngIf="toastMessage()"
+  class="fixed bottom-64 left-1/2 transform -translate-x-1/2 bg-[#ff411f] text-white px-4 py-2 rounded font-semibold shadow-lg z-50 animate-fade-in"
+>
+  {{ toastMessage() }}
+</div>

@@ -230,7 +230,7 @@ export class HomeComponent implements OnInit {
       type: user.card?.type ?? 'Visa',
       background:
         user.card?.background ??
-        'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg',
+        'https://images.pexels.com/photos/6402424/pexels-photo-6402424.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
       balance: user.balance ?? 0,
     };
   }

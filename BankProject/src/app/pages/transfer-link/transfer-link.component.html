@@ -1,153 +1,126 @@
-@if(loading){
-<div style="height: 40vh"></div>
-<div class="flex items-center justify-center">
+@if (loading) {
+<div class="h-screen flex items-center justify-center">
   <div
-    class="size-5 h-16 w-16 rounded-full text-lg border border-[#e90f58] border-t-4 border-r-4 text-black animate-spin"
+    class="h-16 w-16 rounded-full border-4 border-t-[#ff411f] border-[#ff411f]/30 animate-spin"
   ></div>
 </div>
-} @else if(linkIsValid){
-
+} @else if (linkIsValid) {
 <div
-  style="
-    padding: 100px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  "
+  class="w-screen h-screen flex flex-col items-center pt-28 bg-gradient-to-tl from-[#2b2b2c] to-[#2b2b2c] text-white"
 >
-  <div>
-    <div style="margin-top: 20px; display: flex">
-      <div
-        class="bg-[#200123] w-[200px] backdrop-blur-sm p-6 rounded-2xl shadow-md flex flex-col items-center gap-4"
-      >
-        <div
-          class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#8bb3ee]"
-        >
-          @if(false){
-
-          <img
-            [src]="myUser.image"
-            alt="{{ myUser.username }}'s profile picture"
-            class="w-full h-full object-cover block"
-          />
-          } @else {
-          <div
-            class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-2xl font-bold"
-          >
-            {{
-              myUser.username ? myUser.username.charAt(0).toUpperCase() : "?"
-            }}
-          </div>
-          }
-        </div>
-
-        <div class="text-center">
-          <h3 class="text-lg text-white font-semibold">
-            {{ myUser.username }}
-          </h3>
-          <p class="text-sm text-white">
-            Balance:
-            {{ myUser.balance | currency : "KWD" : "symbol" : "1.3-3" }}
-          </p>
-        </div>
-      </div>
-
-      <div
-        style="
-          display: flex;
-          border-radius: 10px;
-          padding: 20px;
-          align-self: center;
-          flex-direction: column;
-          align-items: center;
-        "
-      >
-        <div class="text-2xl text-[#e90f58] font-semibold">
-          {{ this.amount }} KWD
-        </div>
-
-        <app-arrowsvg class="text-9xl text-[#e90f58]"></app-arrowsvg>
-        <!-- <img width="200px" src="https://dsdwiki.wtb.tue.nl/images/archive/20131022130446%21Arrow.png">  -->
-      </div>
-
-      <div
-        class="bg-[#200123] w-[200px] backdrop-blur-sm p-6 rounded-2xl shadow-md flex flex-col items-center gap-4"
-      >
-        <div
-          class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#8bb3ee]"
-        >
-          @if(false){
-
-          <img
-            [src]="otherUser.image"
-            alt="{{ otherUser.username }}'s profile picture"
-            class="w-full h-full object-cover block"
-          />
-          } @else {
-          <div
-            class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-2xl font-bold"
-          >
-            {{
-              otherUser.username
-                ? otherUser.username.charAt(0).toUpperCase()
-                : "?"
-            }}
-          </div>
-          }
-        </div>
-
-        <div class="text-center">
-          <h3 class="text-lg text-white font-semibold">
-            {{ otherUser.username }}
-          </h3>
-          <p class="text-sm text-white">
-            Balance:
-            {{ otherUser.balance | currency : "KWD" : "symbol" : "1.3-3" }}
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div style="border-radius: 10px; padding: 20px; text-align: center">
-      <div>
-        Would you like to transfer {{ this.amount }} KWD to {{ this.userName }}?
-      </div>
-    </div>
-
+  <!-- Profile & Arrow Section -->
+  <div class="flex justify-center gap-12 items-center">
+    <!-- My User Card -->
     <div
-      style="
-        margin-top: 20px;
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-      "
+      class="relative bg-[#1b1b1b] w-[450px] h-[100px] rounded-2xl shadow-md p-6 flex flex-col items-center justify-end"
     >
-      <button
-        class="w-[30%] py-2 bg-[#200123] shadow-md text-white font-semibold rounded-3xl transition-transform duration-300 hover:scale-105"
-        (click)="Reject()"
+      <!-- Profile Image or Initial -->
+      <div
+        class="absolute bottom-[-40px] left-20 transform -translate-x-1/2 w-24 h-24 rounded-full overflow-hidden border-4 border-[#2b2b2c]"
       >
-        Reject
-      </button>
+        @if (false) {
+        <img
+          [src]="myUser.image"
+          alt="{{ myUser.username }}'s profile picture"
+          class="w-full h-full object-cover block"
+        />
+        } @else {
+        <div
+          class="w-full h-full bg-[#1b1b1b] flex items-center justify-center text-[#ff411f] text-4xl font-bold"
+        >
+          {{ myUser.username ? myUser.username.charAt(0).toUpperCase() : "?" }}
+        </div>
+        }
+      </div>
 
-      <button
-        class="w-[30%] py-2 bg-[#e90f58] shadow-md text-white font-semibold rounded-3xl transition-transform duration-300 hover:scale-105"
-        (click)="Confirm()"
+      <div class="text-center mt-16">
+        <h3 class="text-3xl font-semibold">{{ myUser.username }}</h3>
+        <!-- <p class="text-sm">
+          Balance:
+          {{ myUser.balance | currency : "KWD" : "symbol" : "1.3-3" }}
+        </p> -->
+      </div>
+    </div>
+
+    <!-- Arrow + Amount -->
+    <div class="flex flex-col items-center">
+      <div class="text-2xl text-[#ff411f] font-semibold">{{ amount }} KWD</div>
+      <app-arrowsvg
+        class="text-9xl text-[#ff411f]"
+        [ngClass]="{
+          'text-[#ff411f] text-9xl drop-shadow-[0_0_8px_#ff411f] brightness-150': true
+        }"
+      ></app-arrowsvg>
+      <!-- <app-left-arrow class="text-9xl text-[#ff411f]"></app-left-arrow> -->
+    </div>
+
+    <!-- Receiver User Card -->
+    <div
+      class="relative bg-[#1b1b1b] w-[450px] h-[100px] rounded-2xl shadow-md p-6 flex flex-col items-center justify-end"
+    >
+      <!-- Profile Image or Initial -->
+      <div
+        class="absolute bottom-[-40px] left-20 transform -translate-x-1/2 w-24 h-24 rounded-full overflow-hidden border-4 border-[#2b2b2c]"
       >
-        Confirm
-      </button>
+        @if (false) {
+        <img
+          [src]="otherUser.image"
+          alt="{{ otherUser.username }}'s profile picture"
+          class="w-full h-full object-cover block"
+        />
+        } @else {
+        <div
+          class="w-full h-full bg-[#1b1b1b] flex items-center justify-center text-[#ff411f] text-4xl font-bold"
+        >
+          {{
+            otherUser.username
+              ? otherUser.username.charAt(0).toUpperCase()
+              : "?"
+          }}
+        </div>
+        }
+      </div>
+
+      <div class="text-center mt-16">
+        <h3 class="text-3xl font-semibold">{{ otherUser.username }}</h3>
+        <!-- <p class="text-sm">
+          Balance:
+          {{ otherUser.balance | currency : "KWD" : "symbol" : "1.3-3" }}
+        </p> -->
+      </div>
     </div>
   </div>
+
+  <!-- Confirmation Message -->
+  <div class="mt-10 text-center text-lg">
+    Would you like to transfer
+    <span class="text-[#ff411f] font-bold">{{ amount }} KWD</span>
+    to
+    <span class="text-[#ff411f] font-bold">{{ userName }}</span
+    >?
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="mt-6 flex gap-6 justify-center">
+    <button
+      class="w-[150px] py-2 bg-[#323132] text-white font-semibold rounded-3xl transition-transform duration-300 hover:scale-105"
+      (click)="Reject()"
+    >
+      Reject
+    </button>
+    <button
+      class="w-[150px] py-2 bg-[#ff411f] text-white font-semibold rounded-3xl transition-transform duration-300 hover:scale-105"
+      (click)="Confirm()"
+    >
+      Confirm
+    </button>
+  </div>
 </div>
-
-} @else{
-<div style="height: 40vh"></div>
-<div class="flex items-center justify-center">THIS LINK IS INVALID</div>
-
+} @else {
+<div class="h-screen flex items-center justify-center text-white text-xl">
+  THIS LINK IS INVALID
+</div>
 }
-<div
-  *ngIf="toastMessage()"
-  class="fixed bottom-64 left-1/2 transform -translate-x-1/2 bg-[#e90f58] text-white px-4 py-2 rounded font-semibold shadow-lg z-50 animate-fade-in"
->
-  {{ toastMessage() }}
-</div>
+<app-toast></app-toast>
+
+<!-- <app-toast [toastMsg]="getToastMessage()"></app-toast> -->

@@ -5,10 +5,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../services/users/users.service';
 import { User } from '../../models/Users';
 import { CommonModule } from '@angular/common';
+import { ArrowsvgComponent } from '../../svg/arrowsvg/arrowsvg.component';
+import { LeftArrowComponent } from '../../svg/left-arrow/left-arrow.component';
 
 @Component({
   selector: 'app-transactions',
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    ArrowsvgComponent,
+    LeftArrowComponent,
+  ],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.css',
 })
@@ -34,7 +42,13 @@ export class TransactionsComponent {
       this.transactionService
         .getMyTransactions()
         .subscribe((response: Transaction[]) => {
-          this.transactions = response;
+          this.transactions = response
+            .slice()
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            );
           this.transactionType = 'all';
         });
     });
@@ -53,7 +67,7 @@ export class TransactionsComponent {
 
   isPositive(transaction: Transaction) {
     let type = this.GetType(transaction);
-    if (type == 'deposit' || type == 'transferTo') return true;
+    if (type == 'deposit' || type == 'transferFrom') return true;
 
     return false;
   }
@@ -61,9 +75,9 @@ export class TransactionsComponent {
   GetType(transaction: Transaction) {
     let myUserId = this.getMyUser();
     if (transaction.type == 'transfer') {
-      if (transaction.to == myUserId) return 'transferTo';
+      if (transaction.from == myUserId) return 'transferTo';
 
-      if (transaction.from == myUserId) return 'transferFrom';
+      if (transaction.to == myUserId) return 'transferFrom';
     }
     return transaction.type;
   }

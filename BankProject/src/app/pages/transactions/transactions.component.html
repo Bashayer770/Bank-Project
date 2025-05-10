@@ -1,25 +1,25 @@
 <div
   style="display: flex; flex-direction: column"
-  class="bg-gradient-to-tl from-[#cdc3c8] to-[#ffffff] h-screen overflow-auto"
+  class="bg-gradient-to-tl from-[#2b2b2c] to-[#2b2b2c] h-screen overflow-auto p-10"
 >
   <div
-    style="margin-top: 6rem"
-    class="flex justify-center pb-7 text-3xl font-semibold text-[#e90f58]"
+    style="margin-top: 4rem"
+    class="flex justify-center pb-7 text-3xl font-semibold text-[#ff411f]"
   >
     TRANSACTIONS
   </div>
 
-  <div class="flex flex-row justify-center gap-2">
-    <div class="text-[#e90f58]">From</div>
+  <div class="flex flex-row justify-center gap-2 pb-3">
+    <div class="text-[#ff411f]">From</div>
     <input
       type="date"
-      class="bg-transparent hover:bg-[#200123]/5 rounded-lg cursor-pointer"
+      class="bg-transparent text-white hover:bg-[#ffffff]/5 rounded-lg cursor-pointer"
       [value]="firstDate"
     />
-    <div class="text-[#e90f58]">To</div>
+    <div class="text-[#ff411f]">To</div>
     <input
       type="date"
-      class="bg-transparent hover:bg-[#200123]/5 rounded-lg cursor-pointer"
+      class="bg-transparent text-white hover:bg-[#ffffff]/5 rounded-lg cursor-pointer"
       [value]="todaysDate"
     />
   </div>
@@ -42,14 +42,15 @@
         [(ngModel)]="transactionType"
         name="transactionType"
         value="{{ transactionType2 }}"
-        class="sr-only"
+        class="sr-only text-white"
       />
       <label
         for="{{ transactionType2 }}"
-        class="cursor-pointer px-4 py-2 rounded-full border border-gray-300"
+        class="cursor-pointer text-white px-4 py-2 rounded-3xl"
         [ngClass]="{
-          'bg-[#e90f59] text-white': transactionType === transactionType2,
-          'hover:bg-gray-100': transactionType !== transactionType2
+          'bg-[#ff411f] ': transactionType === transactionType2,
+          ' bg-[#3b3b3b] hover:bg-zinc-800':
+            transactionType !== transactionType2
         }"
         >{{ GetRadioString(transactionType2) }}</label
       >
@@ -58,9 +59,9 @@
   </div>
   <div class="h-7"></div>
   @if(!transactions) {
-  <div class="flex items-center justify-center">
+  <div class="h-screen flex items-center justify-center">
     <div
-      class="size-5 h-16 w-16 rounded-full text-lg border border-[#e90f58] border-t-4 border-r-4 text-black animate-spin"
+      class="h-16 w-16 rounded-full border-4 border-t-[#ff411f] border-[#ff411f]/30 animate-spin"
     ></div>
   </div>
   } @else {
@@ -69,9 +70,9 @@
     @for (transaction of transactions; track transaction) {
     @if(ShouldShow(transaction)){
     <div
-      class="shadow-lg bg-white/5 p-7"
+      class="shadow-lg bg-[#1b1b1b] p-7"
       style="
-        color: #200123;
+        color: #ffffff;
         margin: 0px 25%;
 
         border-radius: 10px;
@@ -88,14 +89,26 @@
       </div>
 
       <div
-        style="width: 40%"
+        style="width: 30%"
         [ngStyle]="{ color: isPositive(transaction) ? 'green' : 'red' }"
       >
         {{ getType(transaction) }}
       </div>
 
-      <div style="width: 30%; color: #200123">
+      <div style="width: 30%; color: #ffffff">
         {{ transaction.createdAt | date }}
+      </div>
+
+      <div
+        style="max-width: 10%; color: #ff411f"
+        class="bg-[#363636] p-2 rounded-full"
+      >
+        @if(isPositive(transaction)){
+        <app-arrowsvg class="text-2xl font-semibold"></app-arrowsvg>
+
+        }@else {
+        <app-left-arrow class="text-2xl"></app-left-arrow>
+        }
       </div>
     </div>
     } }

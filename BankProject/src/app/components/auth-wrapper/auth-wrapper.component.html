@@ -1,12 +1,16 @@
 <div
-  class="flex items-center justify-center min-h-screen relative overflow-hidden bg-cover bg-center bg-no-repeat bg-[#ffffff] backdrop-blur-3xl transition-all duration-700 transform"
+  class="flex items-center justify-start min-h-screen relative overflow-hidden flex-col bg-cover bg-center bg-no-repeat bg-[#1b1b1b] backdrop-blur-3xl transition-all duration-700 transform"
   [ngClass]="{ '-translate-x-full opacity-0': exitAnimation }"
 >
+  <div class="h-20 w-full flex">
+    <p class="text-6xl font-extrabold px-4 py-2 text-[#ff411f]">B A A</p>
+  </div>
+  <div class="h-44"></div>
   <div
     id="container"
     class="backdrop-blur-3xl bg-cover bg-center bg-no-repeat shadow-lg rounded-2xl w-[800px] h-[500px] relative overflow-hidden flex"
     style="
-      background-image: url('https://img.freepik.com/premium-photo/empty-studio-room-dark-blue-pink-violet-neon-with-light-shadow-abstract-background_44706-398.jpg');
+      background-image: url('https://media.istockphoto.com/id/669695616/photo/black-horizontal-background.jpg?s=170667a&w=0&k=20&c=T3xsHv9gUrk1PwsImqusFfnUI5mE-A7jng3mDOE6dbs=');
       width: 800px;
     "
   >
@@ -14,14 +18,14 @@
     <div
       class="w-1/2 p-8 flex flex-col justify-center items-center transition-all duration-500 ease-in-out absolute h-full"
       [ngClass]="{
-        'translate-x-0 opacity-100 z-10 bg-white text-[#200123]':
+        'translate-x-0 opacity-100 z-10 bg-[#262626] text-white':
           activeForm === 'register',
         'translate-x-[-100%] opacity-0 z-0 bg-transparent text-white':
           activeForm === 'login'
       }"
     >
       <form class="w-full max-w-xs" (ngSubmit)="onRegisterSubmit()">
-        <h2 class="text-2xl font-bold mb-4 text-center text-[#200123]">
+        <h2 class="text-2xl font-bold mb-4 text-center text-[#ffff]">
           Register Here
         </h2>
         <input
@@ -29,19 +33,19 @@
           placeholder="Username"
           [(ngModel)]="registerData.username"
           name="username"
-          class="w-full p-2 mb-3 border-b border-[#200123]/50 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+          class="w-full bg-[#323232] px-2 py-2 text-start text-base rounded-3xl text-white/70 mb-3"
         />
         <input
           type="password"
           placeholder="Password"
           [(ngModel)]="registerData.password"
           name="password"
-          class="w-full p-2 mb-3 border-b border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+          class="w-full bg-[#323232] p-2 text-start text-base rounded-3xl text-white mb-3"
         />
         <input
           type="file"
           (change)="onFileChange($event)"
-          class="w-full p-2 mb-3 text-[#200123]"
+          class="w-full p-2 mb-3 text-white bg-transparent"
         />
 
         <div *ngIf="errorMessage" class="text-red-400 text-sm p-3 text-center">
@@ -50,14 +54,14 @@
         <button
           type="submit"
           [disabled]="loading"
-          class="w-full py-2 bg-[#200123] text-white font-semibold rounded-full transition-transform duration-300 hover:scale-105"
+          class="w-full py-2 bg-[#ff411f] text-white font-semibold rounded-full transition-transform duration-300 hover:scale-105"
         >
           <ng-container *ngIf="!loading; else loadingSpinner"
             >Register</ng-container
           >
         </button>
         <div
-          class="flex items-center justify-center gap-2 mt-4 text-sm text-[#200123]/70"
+          class="flex items-center justify-center gap-2 mt-4 text-sm text-[#ffff]/70"
         >
           <p>or use your account</p>
           <svg
@@ -65,7 +69,7 @@
             viewBox="0 0 24 24"
             width="16"
             height="16"
-            class="text-[#200123]/70"
+            class="text-[#ff411f]"
           >
             <path
               fill="currentColor"
@@ -79,14 +83,14 @@
     <div
       class="w-1/2 p-8 flex flex-col justify-center items-center transition-all duration-500 ease-in-out absolute h-full"
       [ngClass]="{
-        'translate-x-full opacity-100 z-10 bg-white text-gray-900':
+        'translate-x-full opacity-100 z-10 bg-[#262626] text-white':
           activeForm === 'login',
         'translate-x-0 opacity-0 z-0 bg-transparent text-white':
           activeForm === 'register'
       }"
     >
       <form class="w-full max-w-xs" (ngSubmit)="onLoginSubmit()">
-        <h2 class="text-2xl font-bold mb-4 text-center text-[#200123]">
+        <h2 class="text-2xl font-bold mb-4 text-center text-[#ffff]">
           Login Here
         </h2>
         <input
@@ -94,14 +98,14 @@
           placeholder="Username"
           [(ngModel)]="loginData.username"
           name="username"
-          class="w-full p-2 mb-3 border-b border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+          class="w-full bg-[#323232] p-2 text-start text-base rounded-3xl text-white mb-3"
         />
         <input
           type="password"
           placeholder="Password"
           [(ngModel)]="loginData.password"
           name="password"
-          class="w-full p-2 mb-3 border-b border-[#200123]/70 bg-transparent text-[#200123] placeholder-[#200123]/70 focus:outline-none"
+          class="w-full bg-[#323232] p-2 text-start text-base rounded-3xl text-white mb-3"
         />
 
         <div *ngIf="errorMessage" class="text-red-400 text-sm p-3 text-center">
@@ -110,25 +114,23 @@
         <button
           type="submit"
           [disabled]="loading"
-          class="w-full py-2 bg-[#200123] text-white font-semibold rounded-full transition-transform duration-300 hover:scale-105"
+          class="w-full py-2 bg-[#ff411f] text-white font-semibold rounded-full transition-transform duration-300 hover:scale-105"
         >
           <ng-container *ngIf="!loading; else loadingSpinner"
             >Login</ng-container
           >
         </button>
         <div class="flex justify-between text-sm mt-4 text-white/80">
-          <label class="flex items-center gap-2 text-[#200123]">
+          <label class="flex items-center gap-2 text-[#ffff]">
             <input
               type="checkbox"
               [(ngModel)]="rememberMe"
               name="rememberMe"
-              class="accent-[#200123]"
+              class="accent-[#ff411f]"
             />
             Remember me
           </label>
-          <a href="#" class="hover:underline text-[#200123]"
-            >Forgot password?</a
-          >
+          <a href="#" class="hover:underline text-[#ffff]">Forgot password?</a>
         </div>
       </form>
     </div>
@@ -145,7 +147,7 @@
         <h1 class="text-3xl font-bold mb-2">New here?</h1>
         <p>Sign up and start your journey with us</p>
         <button
-          class="mt-4 bg-white text-[#200123] px-6 py-2 rounded-full hover:scale-105 transition"
+          class="mt-4 bg-[#ff411f] text-[#fff] px-6 py-2 rounded-full hover:scale-105 transition"
           (click)="switchTo('register')"
         >
           Register
@@ -155,7 +157,7 @@
         <h1 class="text-3xl font-bold mb-2">Welcome Back!</h1>
         <p>If you already have an account, login here</p>
         <button
-          class="mt-4 bg-white text-gray-800 px-6 py-2 rounded-full hover:scale-105 transition"
+          class="mt-4 bg-[#ff411f] text-white px-6 py-2 rounded-full hover:scale-105 transition"
           (click)="switchTo('login')"
         >
           Login

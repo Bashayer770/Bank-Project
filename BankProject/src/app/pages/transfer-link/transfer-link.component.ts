@@ -1,4 +1,4 @@
-import { Component, signal, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransferRequest } from '../../models/TransactionsRequest';
 import { TransactionService } from '../../services/transaction.service';
@@ -7,15 +7,21 @@ import { UsersService } from '../../services/users/users.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ArrowsvgComponent } from '../../svg/arrowsvg/arrowsvg.component';
 import { ToastComponent } from '../../components/toast/toast.component';
+import { LeftArrowComponent } from '../../svg/left-arrow/left-arrow.component';
 
 @Component({
   selector: 'app-transfer-link',
-  imports: [CurrencyPipe, ArrowsvgComponent, ArrowsvgComponent, CommonModule],
+  imports: [
+    CurrencyPipe,
+    ArrowsvgComponent,
+    CommonModule,
+    ToastComponent,
+    LeftArrowComponent,
+  ],
   templateUrl: './transfer-link.component.html',
   styleUrl: './transfer-link.component.css',
 })
 export class TransferLinkComponent {
-  toastMessage = signal<string | null>(null);
   @ViewChild(ToastComponent) toast!: ToastComponent;
 
   getToastMessage(): string {
@@ -29,10 +35,12 @@ export class TransferLinkComponent {
         amount: <number>this.amount,
       })
       .subscribe((response) => {
-        this.showToast('Transfer Successful!', 'success');
+        console.log(response);
+        this.toast.showToast('Transfer Successful!');
+
         setTimeout(() => {
           this.router.navigate(['/home']);
-        }, 3000);
+        }, 1500); // 1.5 seconds delay so the toast can appear
       });
   }
 
@@ -49,6 +57,7 @@ export class TransferLinkComponent {
   // ...
 
   Reject() {
+    console.log('test');
     this.router.navigate(['/home']);
   }
 
@@ -74,12 +83,21 @@ export class TransferLinkComponent {
     this.route.queryParamMap.subscribe((params) => {
       this.userName = params.get('user')!;
       this.amount = this.convertToNumber(params.get('amount')!);
+      console.log(this.userName);
+      console.log(this.amount);
 
       if (this.userName == undefined) {
+        console.log('userName undefined');
         this.loading = false;
       } else if (this.amount == undefined) {
+        console.log('amount undefined');
         this.loading = false;
       } else {
+        console.log('valid link');
+        console.log(
+          `Would you like to transfer ${this.amount} KD to ${this.userName}?`
+        );
+
         userService.getAllUsers().subscribe((response: User[]) => {
           let other = response.find((x) => x.username == this.userName);
           if (other) this.otherUser = other;

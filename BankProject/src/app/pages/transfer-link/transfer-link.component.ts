@@ -8,6 +8,7 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ArrowsvgComponent } from '../../svg/arrowsvg/arrowsvg.component';
 import { ToastComponent } from '../../components/toast/toast.component';
 import { LeftArrowComponent } from '../../svg/left-arrow/left-arrow.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-transfer-link',
@@ -40,7 +41,7 @@ export class TransferLinkComponent {
 
         setTimeout(() => {
           this.router.navigate(['/home']);
-        }, 1500);
+        }, 1500); // 1.5 seconds delay so the toast can appear
       });
   }
 
@@ -63,7 +64,8 @@ export class TransferLinkComponent {
     private route: ActivatedRoute,
     private router: Router,
     private transactionService: TransactionService,
-    private userService: UsersService
+    private userService: UsersService,
+    private authService: AuthService
   ) {
     this.linkIsValid = false;
     this.loading = true;
@@ -71,6 +73,7 @@ export class TransferLinkComponent {
     this.route.queryParamMap.subscribe((params) => {
       this.userName = params.get('user')!;
       this.amount = this.convertToNumber(params.get('amount')!);
+
       console.log(this.userName);
       console.log(this.amount);
 
@@ -80,6 +83,11 @@ export class TransferLinkComponent {
       } else if (this.amount == undefined) {
         console.log('amount undefined');
         this.loading = false;
+      } else if (!sessionStorage.getItem('token')) {
+        console.log('not logged in, redirecting');
+        this.router.navigate(['/auth'], {
+          queryParams: { user: this.userName, amount: this.amount },
+        }); // with query param
       } else {
         console.log('valid link');
         console.log(

@@ -104,10 +104,11 @@
         class="bg-[#363636] p-2 rounded-full"
       >
         @if(isPositive(transaction)){
-        <app-arrowsvg class="text-2xl font-semibold"></app-arrowsvg>
+        <app-left-arrow class="text-2xl"></app-left-arrow>
 
         }@else {
-        <app-left-arrow class="text-2xl"></app-left-arrow>
+
+        <app-arrowsvg class="text-2xl font-semibold"></app-arrowsvg>
         }
       </div>
     </div>

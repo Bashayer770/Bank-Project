@@ -1,5 +1,5 @@
 <div
-  class="h-screen w-screen bg-gradient-to-tl from-[#000000] to-[#2b2b2c] flex overflow-hidden"
+  class="h-screen w-screen bg-gradient-to-tl from-[#000000] to-[#2b2b2c] flex overflow-auto"
 >
   <!-- MAIN CONTENT -->
   <div class="flex-1 mt-[72px] px-12 flex flex-col justify-between">
@@ -169,7 +169,7 @@
   </div> -->
   <!-- BLACK CARD STACK SIDEBAR LEFT -->
   <div
-    class="w-[15%] bg-[#1b1b1b] rounded-r-3xl mt-[72px] py-6 px-2 flex flex-col justify-center items-end relative"
+    class="w-[15%] bg-gradient-to-tl from-[#000000] to-[#2b2b2c] rounded-r-3xl mt-[72px] py-6 px-2 flex flex-col justify-center items-end relative"
   >
     <ng-container *ngFor="let card of cards(); let i = index">
       <div

@@ -10,6 +10,10 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { UsersListComponent } from './pages/users/users.component';
 
 export const routes: Routes = [
+  {
+    path: 'transferLink',
+    component: TransferLinkComponent,
+  },
   { path: 'auth', component: AuthWrapperComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   {
@@ -18,21 +22,17 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'users',
-    component: UsersListComponent,
-    canActivate: [AuthGuard],
-  },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  {
     path: 'transactions',
     component: TransactionsComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'transferLink',
-    component: TransferLinkComponent,
+    path: 'users',
+    component: UsersListComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   { path: '**', redirectTo: 'auth' },
   // { path: '**', redirectTo: 'login' },

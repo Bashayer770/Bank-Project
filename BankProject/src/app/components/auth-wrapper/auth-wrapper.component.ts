@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users/users.service';
 import { User } from '../../models/Users';
@@ -32,6 +32,7 @@ export class AuthWrapperComponent {
   };
 
   constructor(
+    private route: ActivatedRoute,
     private authService: AuthService,
     private userService: UsersService,
     private router: Router
@@ -109,7 +110,16 @@ export class AuthWrapperComponent {
         // this.router.navigate(['/home']);
         this.exitAnimation = true;
         setTimeout(() => {
-          this.router.navigate(['/home']);
+          this.route.queryParamMap.subscribe((params) => {
+            console.log("I'm LOGGING IN");
+            let user = params.get('user')!;
+            let amount = this.convertToNumber(params.get('amount')!);
+            if (user && amount)
+              this.router.navigate(['/transferLink'], {
+                queryParams: { user: user, amount: amount },
+              });
+            else this.router.navigate(['/home']);
+          });
         }, 700);
       },
       error: (err) => {
@@ -117,6 +127,13 @@ export class AuthWrapperComponent {
         this.loading = false;
       },
     });
+  }
+
+  convertToNumber(value: string): number | undefined {
+    if (value != null && !isNaN(Number(value)) && value.trim() !== '')
+      return Number(value);
+
+    return undefined;
   }
 
   setUserProfileSession() {

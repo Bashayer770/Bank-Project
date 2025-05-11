@@ -1,14 +1,14 @@
 <div
-  class="h-screen w-screen bg-gradient-to-tl from-[#000000] to-[#2b2b2c] flex overflow-auto"
+  class="h-screen w-screen bg-gradient-to-tl from-[#000000] to-[#2b2b2c] flex overflow-hidden"
 >
-  <!-- MAIN CONTENT -->
-  <div class="flex-1 mt-[72px] px-12 flex flex-col justify-between">
-    <!-- WELCOME SECTION -->
+  <div
+    class="flex-1 mt-[72px] px-12 flex flex-col justify-between overflow-y-auto"
+  >
     <div
       *ngIf="selectedCardIndex() === null"
       class="flex flex-col justify-center flex-grow"
     >
-      <div class=""></div>
+      <div class="h-[70px]"></div>
       <h1 class="text-8xl font-extrabold text-white">
         WELCOME, {{ user?.username?.toUpperCase() }}
       </h1>
@@ -36,7 +36,6 @@
       </div>
     </div>
 
-    <!-- CARD ACTIONS SECTION -->
     <div
       *ngIf="selectedCardIndex() !== null"
       class="flex flex-col items-center justify-center mt-[10px]"
@@ -137,24 +136,23 @@
       </ng-container>
     </div>
 
-    <!-- CONSTANT ADD CARD BUTTON -->
     <div class="flex justify-end">
       <button
-        class="px-6 py-2 bg-[#ff411f] text-white font-semibold rounded-3xl shadow-lg hover:scale-105 transition"
+        class="px-6 py-2 bg-[#ff411f] text-white font-semibold rounded-3xl shadow-lg hover:scale-105 transition mb-14"
         (click)="openModal()"
       >
         + Add Digital Card
       </button>
     </div>
   </div>
-  <!-- BLACK CARD STACK SIDEBAR LEFT -->
-  <!-- <div
-    class="w-[15%] bg-[#1b1b1b] rounded-r-3xl mt-[72px] py-6 px-2 flex flex-col justify-center items-end gap-4"
+  <div
+    class="w-[15%] bg-gradient-to-tl from-[#000000] to-[#2b2b2c] rounded-l-3xl mt-[72px] py-6 flex flex-col justify-center items-end relative z-10"
   >
     <ng-container *ngFor="let card of cards(); let i = index">
       <div
         *ngIf="selectedCardIndex() !== i"
-        class="transition-all duration-500 ease-in-out cursor-pointer hover:translate-x-[-20px]"
+        class="transition-all duration-300 ease-in-out cursor-pointer hover:translate-x-[-10px] -mt-20 pr-4 transform -translate-x-[-20%]"
+        [ngStyle]="{ 'z-index': 100 - i }"
         (click)="selectCard(i)"
       >
         <div class="animate-swipe-in">
@@ -166,30 +164,8 @@
         </div>
       </div>
     </ng-container>
-  </div> -->
-  <!-- BLACK CARD STACK SIDEBAR LEFT -->
-  <div
-    class="w-[15%] bg-gradient-to-tl from-[#000000] to-[#2b2b2c] rounded-r-3xl mt-[72px] py-6 px-2 flex flex-col justify-center items-end relative"
-  >
-    <ng-container *ngFor="let card of cards(); let i = index">
-      <div
-        *ngIf="selectedCardIndex() !== i"
-        class="transition-all duration-300 ease-in-out cursor-pointer absolute right-[-100px] hover:translate-x-[-10px] pr-4"
-        [ngStyle]="{ 'z-index': 5 - i }"
-        (click)="selectCard(i)"
-      >
-        <div class="animate-swipe-in translate-x-[30%]">
-          <app-payment-card
-            [card]="toPaymentCard(card)"
-            [background]="card.background"
-            [flipped]="false"
-          />
-        </div>
-      </div>
-    </ng-container>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
   <div
     *ngIf="toastMessage()"
     class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in"
@@ -197,7 +173,6 @@
     {{ toastMessage() }}
   </div>
 
-  <!-- MODALS -->
   <app-add-card-modal
     *ngIf="showModal()"
     [username]="user?.username"
